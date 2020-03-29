@@ -14,7 +14,7 @@ architecture Structure of converter is
 
 component circuitA
 	port(
-		  v: in std_logic_vector(2 downto 0);
+		  v: in unsigned(2 downto 0);
 		  v_new: out std_logic_vector(2 downto 0)
 		  );
 end component;
@@ -29,15 +29,16 @@ end component;
 
 component comparator
 	port(
-			v: in unsigned(3 downto 0);
+			A: in unsigned(3 downto 0);
+			B: in unsigned(3 downto 0);
 			z: out std_logic
 		 );
 end component;
 
 signal w: std_logic_vector(2 downto 0);
 begin
-	COMP: comparator port map(v, z);
-	CIRA: circuitA port map(std_logic_vector(v(2 downto 0)), w);
+	COMP: comparator port map(v, "1001", z); --comparator that checks if v is bigger than 9
+	CIRA: circuitA port map(v(2 downto 0), w);
 	
 	MUX0: MUX2to1 port map(v(0), w(0), z, m(0));
 	MUX1: MUX2to1 port map(v(1), w(1), z, m(1));

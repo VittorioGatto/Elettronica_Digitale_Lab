@@ -1,0 +1,9 @@
+MUX2to1
+MUX5to1
+MUX15to3
+segment7_decoder
+segment7_decoder_tb
+segments7_mux
+segment7_mux_decoder    //errore manca la s su segment ma non ho voglia di sistemare
+segments7_5
+segments7_5_tb

@@ -2,6 +2,7 @@ MUX2to1
 comparator
 comparator_tb
 circuitA
+circuitA_tb
 circuitB
 segment7_decoder_nums
 segment7_decoder_nums_tb

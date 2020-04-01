@@ -27,17 +27,16 @@ component MUX2to1
 		 );
 end component;
 
-component comparator
+component comparator_9
 	port(
 			A: in unsigned(3 downto 0);
-			B: in unsigned(3 downto 0);
 			z: out std_logic
 		 );
 end component;
 
 signal w: std_logic_vector(2 downto 0);
 begin
-	COMP: comparator port map(v, "1001", z); --comparator that checks if v is bigger than 9
+	COMP: comparator_9 port map(v, z); --comparator that checks if v is bigger than 9
 	CIRA: circuitA port map(v(2 downto 0), w);
 	
 	MUX0: MUX2to1 port map(v(0), w(0), z, m(0));

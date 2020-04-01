@@ -11,13 +11,7 @@ end circuitA;
 
 architecture Behavior of circuitA is
 begin
-	-- notice a pattern?
-	--v_new="000" when v="010", --10   0 - 2
-   --"001" when "011", --11
-   --"010" when "100", --12
-   --"011" when "101", --13
-   --"100" when "110", --14   4 - 6
-   --"101" when "111", --15   5 - 7
-	
-	v_new <= std_logic_vector(v - 2);
+	v_new(2) <= v(2) AND v(1);
+	v_new(1) <= v(2) AND (NOT v(1));
+	v_new(0) <= (v(1) AND v(0)) OR (v(2) AND v(0));
 end Behavior;

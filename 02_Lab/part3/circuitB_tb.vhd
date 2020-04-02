@@ -23,7 +23,7 @@ begin
     
 process
 begin
-  EN_in <= '0'; -- HEX1_out = 11111111 (all off)
+  EN_in <= '0'; -- HEX1_out = 11111110 (lit 0)
   wait for 10 ns; 
   EN_in <= '1'; -- HEX1_out = 10011111  (lit 1)
   wait for 10 ns; 

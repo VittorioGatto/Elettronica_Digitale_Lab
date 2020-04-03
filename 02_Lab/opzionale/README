@@ -1,0 +1,9 @@
+MUX8to4.vhd
+check_and_add.vhd
+check_and_add_tb.vhd
+comparator4.vhd
+comparator4_tb.vhd
+binary_to_BCD.vhd
+binary_to_BCD_tb.vhd
+display_BCD.vhd
+display_BCD_tb.vhd

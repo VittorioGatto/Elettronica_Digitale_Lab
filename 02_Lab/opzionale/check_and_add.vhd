@@ -19,10 +19,9 @@ component MUX8to4
 		 );
 end component;
 
-component comparator
+component comparator_4
 	port(
 			A: in unsigned(3 downto 0);
-			B: in unsigned(3 downto 0);
 			z: out std_logic
 		 );
 end component;
@@ -33,7 +32,7 @@ signal m_out: std_logic_vector(3 downto 0);
 
 begin
 	sum <= std_logic_vector(terms + 3);
-	COMP: comparator port map(terms, "0100", comparation_result); --checks if bigger than 4
+	COMP: comparator_4 port map(terms, comparation_result); --checks if bigger than 4
 	MUX: MUX8to4 port map(std_logic_vector(terms), sum, comparation_result, m_out);
 	
 	result <= unsigned(m_out);

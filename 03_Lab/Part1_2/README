@@ -1,0 +1,16 @@
+Comprende sia la parte 1 che la parte 2 dell'esercitazione, è stato fatto cosi perchè tanto le aggiunte erano veramente poche.
+File da includere da relazioni precedenti: Mux2to1 e Mux16to8
+Vi consiglio caldamente su modelsim di usare la funzione Prefix->Decimal per i numeri signed
+
+FA.vhd
+RCA_4bits.vhd
+RCA_power4.vhd
+ALU_power4.vhd
+ALU_power4_tb.vhd
+flipflop.vhd
+regn.vhd
+Bit8_Seq_RCA.vhd
+Bit8_Seq_RCA_tb.vhd
+segment7_hex.vhd
+display_8bit_RCA.vhd
+display_8bit_RCA_tb.vhd

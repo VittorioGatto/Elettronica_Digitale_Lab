@@ -5,6 +5,7 @@ Vi consiglio caldamente su modelsim di usare la funzione Prefix->Decimal per i n
 FA.vhd
 RCA_4bits.vhd
 RCA_power4.vhd
+MUX2NtoN.vhd
 ALU_power4.vhd
 ALU_power4_tb.vhd
 flipflop.vhd

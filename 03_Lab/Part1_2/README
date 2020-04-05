@@ -9,9 +9,12 @@ MUX2NtoN.vhd
 ALU_power4.vhd
 ALU_power4_tb.vhd
 flipflop.vhd
+flipflop_tb.vhd
 regn.vhd
+regn_tb.vhd
 Bit8_Seq_RCA.vhd
 Bit8_Seq_RCA_tb.vhd
 segment7_hex.vhd
+segment7_hex_tb.vhd
 display_8bit_RCA.vhd
 display_8bit_RCA_tb.vhd

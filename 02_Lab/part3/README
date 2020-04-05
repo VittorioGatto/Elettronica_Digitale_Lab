@@ -4,8 +4,10 @@ comparator_9_tb
 circuitA
 circuitA_tb
 circuitB
+circuitB_tb
 segment7_decoder_nums
 segment7_decoder_nums_tb
 converter
+converter_tb
 display
 display_tb

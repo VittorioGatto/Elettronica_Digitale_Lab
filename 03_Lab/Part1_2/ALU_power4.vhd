@@ -21,11 +21,12 @@ end ALU_power4;
 
 architecture Behavior of ALU_power4 is
 
-component MUX16to8
+component MUX2NtoN
+	generic(n: integer:=8);
 	port(
-			x, y: in std_logic_vector(7 downto 0);
+			x, y: in std_logic_vector((n-1) downto 0);
 			s: in std_logic;
-			m: out std_logic_vector(7 downto 0)
+			m: out std_logic_vector((n-1) downto 0)
 		 );
 end component;
 
@@ -54,7 +55,9 @@ begin
 	     generic map (n)
 		  port map (b_complemented, number1, c_in, open, open, b_negative); --adds 1 to b_complemented, now we have (minus "-") -b
 		  
-	MUX_opcode: MUX16to8 port map (std_logic_vector(b), b_negative, opcode, b_opcode); -- opcode toggles addition(0) or subtraction(1)
+	MUX_opcode: MUX2NtoN 
+	     generic map (n)
+	          port map (std_logic_vector(b), b_negative, opcode, b_opcode); -- opcode toggles addition(0) or subtraction(1)
 		  
    RCA: RCA_power4 
 	     generic map (n)

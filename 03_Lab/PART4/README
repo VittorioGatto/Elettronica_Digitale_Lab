@@ -1,0 +1,9 @@
+Multiplier_row è semplicemente una riga di full adder con gli and, vi carico poi lo schema su telegram.
+Per questa stavolta su modelsim usate Prefix->unsigned
+File da importare: Mux2to1.vhd (1LAB), FA.vhd(3LAB), segment7_hex.vhd(3LAB)
+
+Multiplier_row.vhd
+Multiplier4bits.vhd
+Multiplier4bits_tb.vhd
+display_Multiplier.vhd
+display_Multiplier_tb.vhd

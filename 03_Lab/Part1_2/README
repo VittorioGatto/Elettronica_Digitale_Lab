@@ -1,5 +1,5 @@
 Comprende sia la parte 1 che la parte 2 dell'esercitazione, è stato fatto cosi perchè tanto le aggiunte erano veramente poche.
-<b>EDIT</b>: File da includere da relazioni precedenti: Mux2to1, <b>scaricate nuovi MUX2NtoN e ALU_power4!!</b>
+EDIT: File da includere da relazioni precedenti: Mux2to1, scaricate nuovi MUX2NtoN e ALU_power4!!
 Vi consiglio caldamente su modelsim di usare la funzione Prefix->Decimal per i numeri signed
 
 FA.vhd

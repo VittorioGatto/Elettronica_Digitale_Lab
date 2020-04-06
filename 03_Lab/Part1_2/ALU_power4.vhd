@@ -3,12 +3,11 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 --Simplified ALU (can only add and subtract) that takes as inputs two signed numbers
---This ALU uses a Carry Bypass Adder
 --status: simplified status, 1 if operation results in overflow, 0 if else
 --opcode: simplified opcdoe, 0 if addition, 1 if subtraction
 
-entity ALU_BYP_power4 is
-	generic(n: integer:=8); --n bits MUST BE POWER OF 4!!
+entity ALU_power4 is
+	generic(n: integer:=8); --n bits MUST BE MULTIPLE OF 4!!
 	port(
 			a, b: in signed(n-1 downto 0);
 			c_in: in std_logic;
@@ -18,9 +17,9 @@ entity ALU_BYP_power4 is
 			status: out std_logic;
 			s: out signed(n-1 downto 0)
 		 );
-end ALU_BYP_power4;
+end ALU_power4;
 
-architecture Behavior of ALU_BYP_power4 is
+architecture Behavior of ALU_power4 is
 
 component MUX2NtoN
 	generic(n: integer:=8);
@@ -31,7 +30,7 @@ component MUX2NtoN
 		 );
 end component;
 
-component Bypass4bits_power4
+component RCA_power4
 	generic(n: integer:=8);
 	port(
 			a, b: in std_logic_vector(n-1 downto 0);
@@ -52,15 +51,15 @@ signal s_out: std_logic_vector(n-1 downto 0);
 begin
 	b_complemented <= not std_logic_vector(b); --complements b
 	
-	BYP_opcode: Bypass4bits_power4 
+	RCA_opcode: RCA_power4 
 	     generic map (n)
 		  port map (b_complemented, number1, c_in, open, open, b_negative); --adds 1 to b_complemented, now we have (minus "-") -b
 		  
 	MUX_opcode: MUX2NtoN 
-					generic map (n)
-					port map (std_logic_vector(b), b_negative, opcode, b_opcode); -- opcode toggles addition(0) or subtraction(1)
+	     generic map (n)
+	          port map (std_logic_vector(b), b_negative, opcode, b_opcode); -- opcode toggles addition(0) or subtraction(1)
 		  
-   BYP: Bypass4bits_power4 
+   RCA: RCA_power4 
 	     generic map (n)
 		  port map (std_logic_vector(a), std_logic_vector(b_opcode), c_in, c_carryin_last, c_out, s_out);
 		  

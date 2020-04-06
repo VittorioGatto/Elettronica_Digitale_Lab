@@ -7,7 +7,7 @@ end RCA_power4_tb;
 architecture Behavior of RCA_power4_tb is
 
 component RCA_power4
-  generic(n: integer:=8); --n bits MUST BE POWER OF 4!!
+  generic(n: integer:=8); --n bits MUST BE MULTIPLE OF 4!!
 	port(
 			a, b: in std_logic_vector(7 downto 0);
 			c_in: in std_logic;

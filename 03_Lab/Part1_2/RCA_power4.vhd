@@ -2,11 +2,11 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
---Ripple carry adder generic, can use any power of 4
---It's only purpose is to link blocks of RCA_4bits for the necessary generic n bits
+--Ripple carry adder generic, can use any multiple of 4
+--Its only purpose is to link blocks of RCA_4bits for the necessary generic n bits
 
 entity RCA_power4 is
-	generic(n: integer:=8); --n bits MUST BE POWER OF 4!!
+	generic(n: integer:=8); --n bits MUST BE MULTIPLE OF 4!!
 	port(
 			a, b: in std_logic_vector(n-1 downto 0);
 			c_in: in std_logic;
@@ -16,7 +16,7 @@ entity RCA_power4 is
 		 );
 end RCA_power4;
 
-architecture Stucture of RCA_power4 is
+architecture Structure of RCA_power4 is
 
 component RCA_4bits
 	port(
@@ -51,4 +51,4 @@ begin
 	s <= s_out;
 	c_out <= c_propagate(n/4);
 	c_carryin_last <= c_carryin_last_vector(n/4);
-end Stucture;
+end Structure;

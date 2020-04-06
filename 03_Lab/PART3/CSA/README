@@ -1,0 +1,14 @@
+Carry select adder a 16 bit, le dipendenze di questo esercizio sono:
+Mux2to1
+Mux2NtoN
+FA
+regn
+flipflop
+RCA_4bits
+
+Ordine gerarchico:
+CSA4bits.vhd
+CSA4bits_power4.vhd
+ALU_CSA_power4.vhd
+Bit16_Seq_CSA.vhd
+Bit16_Seq_CSA_tb.vhd

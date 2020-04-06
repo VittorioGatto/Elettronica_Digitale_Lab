@@ -1,0 +1,14 @@
+Carry bypass adder a 16 bit, le dipendenze di questo esercizio sono:
+Mux2to1
+Mux2NtoN
+FA
+regn
+flipflop
+RCA_4bits
+
+Ordine gerarchico:
+Bypass4bits.vhd
+Bypass4bits_power4.vhd
+ALU_BYP_power4.vhd
+Bit16_Seq_BYP.vhd
+Bit16_Seq_BYP_tb.vhd

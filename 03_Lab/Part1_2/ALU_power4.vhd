@@ -7,7 +7,7 @@ use ieee.numeric_std.all;
 --opcode: simplified opcdoe, 0 if addition, 1 if subtraction
 
 entity ALU_power4 is
-	generic(n: integer:=8); --n bits MUST BE POWER OF 4!!
+	generic(n: integer:=8); --n bits MUST BE MULTIPLE OF 4!!
 	port(
 			a, b: in signed(n-1 downto 0);
 			c_in: in std_logic;

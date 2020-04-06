@@ -8,13 +8,13 @@ architecture Behavior of RCA_power4_tb is
 
 component RCA_power4
   generic(n: integer:=8); --n bits MUST BE MULTIPLE OF 4!!
-	port(
-			a, b: in std_logic_vector(7 downto 0);
-			c_in: in std_logic;
-			c_carryin_last: out std_logic; 
-			c_out: out std_logic;
-			s: out std_logic_vector(7 downto 0)
-		 );
+  port(
+      a, b: in std_logic_vector(7 downto 0);
+      c_in: in std_logic;
+      c_carryin_last: out std_logic; 
+      c_out: out std_logic;
+      s: out std_logic_vector(7 downto 0)
+     );
 end component;
 
 signal A_IN: std_logic_vector(7 downto 0);
@@ -34,27 +34,27 @@ begin
   A_IN <= "00000000";
   B_IN <= "00000000";
   C_IN_SIM <= '0';
-  wait for 4 ns; -- S_OUT = "0000", C_OUT_SIM = '0', C_LAST = '0'
+  wait for 4 ns; -- S_OUT = "00000000", C_OUT_SIM = '0', C_LAST = '0'
   
   A_IN <= "00000000";
   B_IN <= "00000000";
   C_IN_SIM <= '1';
-  wait for 4 ns; -- S_OUT = "0001", C_OUT_SIM = '0', C_LAST = '0'
+  wait for 4 ns; -- S_OUT = "00000001", C_OUT_SIM = '0', C_LAST = '0'
   
   A_IN <= "00000101";
   B_IN <= "00001010";
   C_IN_SIM <= '0';
-  wait for 4 ns; -- S_OUT = "1111", C_OUT_SIM = '0', C_LAST = '0'
+  wait for 4 ns; -- S_OUT = "00001111", C_OUT_SIM = '0', C_LAST = '0'
   
   A_IN <= "00000101";
   B_IN <= "00001010";
   C_IN_SIM <= '1';
-  wait for 4 ns; -- S_OUT = "0000", C_OUT_SIM = '1', C_LAST = '1'
+  wait for 4 ns; -- S_OUT = "00010000", C_OUT_SIM = '0', C_LAST = '0'
   
   A_IN <= "11111111";
   B_IN <= "11111111";
   C_IN_SIM <= '1';
-  wait for 4 ns; -- S_OUT = "1111", C_OUT_SIM = '1', C_LAST = '1'
+  wait for 4 ns; -- S_OUT = "11111111", C_OUT_SIM = '1', C_LAST = '1'
 
 
 end process;

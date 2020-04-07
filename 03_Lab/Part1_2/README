@@ -3,9 +3,13 @@ EDIT: File da includere da relazioni precedenti: Mux2to1, scaricate nuovi MUX2Nt
 Vi consiglio caldamente su modelsim di usare la funzione Prefix->Decimal per i numeri signed
 
 FA.vhd
+FA_tb.vhd
 RCA_4bits.vhd
+RCA_4bits_tb.vhd
 RCA_power4.vhd
+RCA_power4_tb.vhd
 MUX2NtoN.vhd
+MUX2NtoN_tb.vhd
 ALU_power4.vhd
 ALU_power4_tb.vhd
 flipflop.vhd

@@ -24,7 +24,7 @@ begin
    -- generate clock 
 process
   begin
-  for i in 1 to 3 loop    -- clock period 10 ns
+  for i in 1 to 2 loop    -- clock period 10 ns
     clock_IN <= '0';
     wait for 5 ns;
     clock_IN <= '1';
@@ -45,7 +45,7 @@ begin
   wait for 8 ns;
   
   D_IN <= '1';
-  wait for 6 ns;
+  wait for 4 ns;
 
 end process;
   
@@ -53,9 +53,10 @@ end process;
 process
   begin
     Resetn_IN <= '1'; 
+    wait for 12 ns;
     
-    wait for 30 ns;
     Resetn_IN <= '0';
+    wait for 8 ns;
   end process;
 
 end Behavior;

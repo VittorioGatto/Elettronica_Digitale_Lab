@@ -50,12 +50,12 @@ begin
 		a_in <= to_signed(127, 8);
 		b_in <= to_signed(2, 8);
 		opcode <= '0'; -- addition 
+		wait for 10 ns;
 		a_in <= to_signed(-50, 8);
 		b_in <= to_signed(20, 8);
 		opcode <= '0'; -- addition 
 		wait for 10 ns;
-		
-		wait for 10 ns;
+
 		a_in <= to_signed(10, 8);
 		b_in <= to_signed(8, 8);
 		opcode <= '1'; -- subtraction 

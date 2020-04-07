@@ -28,7 +28,7 @@ begin
    -- generate clock 
 process
   begin
-  for i in 1 to 3 loop    -- clock period 10 ns
+  for i in 1 to 2 loop    -- clock period 10 ns
     clock_IN <= '0';
     wait for 5 ns;
     clock_IN <= '1';
@@ -39,25 +39,27 @@ end process;
   -- generate input
 process  
 begin
-  R_IN <= "00000000";
+  R_IN <= "10101010";
   wait for 2 ns;
    
-  R_IN <= "-0000001";
+  R_IN <= "01010101";
   wait for 6 ns;
   
-  R_IN <= "00000000";
+  R_IN <= "11111111";
   wait for 8 ns;
   
-  R_IN <= "00000001"; 
+  R_IN <= "10000001";
+  wait for 4 ns; 
   
 end process;
 
 process
   begin
     Resetn_IN <= '1';
-    wait for 10 ns;
+    wait for 12 ns;
     
     Resetn_IN <= '0';
+    wait for 8 ns;
   end process;
 
 end Behavior;

@@ -42,27 +42,35 @@ component Bypass4bits_power4
 		 );
 end component;
 
-signal b_complemented: std_logic_vector(n-1 downto 0);
-signal b_negative: std_logic_vector(n-1 downto 0);
-constant number1: std_logic_vector(n-1 downto 0) := std_logic_vector(to_unsigned(1, n));
-signal b_opcode: std_logic_vector(n-1 downto 0);
+--signal b_complemented: std_logic_vector(n-1 downto 0);
+--signal b_negative: std_logic_vector(n-1 downto 0);
+--constant number1: std_logic_vector(n-1 downto 0) := std_logic_vector(to_unsigned(1, n));
+--signal b_opcode: std_logic_vector(n-1 downto 0);
 
+signal b_complemented: std_logic_vector(n-1 downto 0);
+signal opcode_nbit: std_logic_vector(n-1 downto 0);
 signal s_out: std_logic_vector(n-1 downto 0);
 
 begin
-	b_complemented <= not std_logic_vector(b); --complements b
+	--b_complemented <= not std_logic_vector(b); --complements b
+	opcode_nbit <= (others => opcode);
+	b_complemented <= std_logic_vector(b) XOR opcode_nbit;
 	
-	BYP_opcode: Bypass4bits_power4 
-	     generic map (n)
-		  port map (b_complemented, number1, c_in, open, open, b_negative); --adds 1 to b_complemented, now we have (minus "-") -b
+	--BYP_opcode: Bypass4bits_power4 
+	     --generic map (n)
+		  --port map (b_complemented, number1, c_in, open, open, b_negative); --adds 1 to b_complemented, now we have (minus "-") -b
 		  
-	MUX_opcode: MUX2NtoN 
-					generic map (n)
-					port map (std_logic_vector(b), b_negative, opcode, b_opcode); -- opcode toggles addition(0) or subtraction(1)
+	--MUX_opcode: MUX2NtoN 
+					--generic map (n)
+					--port map (std_logic_vector(b), b_negative, opcode, b_opcode); -- opcode toggles addition(0) or subtraction(1)
 		  
-   BYP: Bypass4bits_power4 
-	     generic map (n)
-		  port map (std_logic_vector(a), std_logic_vector(b_opcode), c_in, c_carryin_last, c_out, s_out);
+   --BYP: Bypass4bits_power4 
+	     --generic map (n)
+		  --port map (std_logic_vector(a), std_logic_vector(b_opcode), c_in, c_carryin_last, c_out, s_out);
+		  
+	  BYP: 	Bypass4bits_power4
+				generic map (n)
+				port map (std_logic_vector(a), b_complemented, opcode, c_carryin_last, c_out, s_out); --c_in = opcode allows to do correctly both sum and subtraction
 		  
 	s <= signed(s_out);
 	status <= c_carryin_last XOR c_out; -- 1 if overflow, 0 if else

@@ -1,0 +1,7 @@
+Contatore 4 bit e 16 bit, l'unica cosa che dovete importare è segment7_hex per fare la parte in cui accendere i display
+
+T_FF.vhd
+T_FF_tb.vhd
+bit4_counter.vhd
+bit16_counter.vhd (la parte 3 è in una diversa architecture qui dentro)
+bit16_counter_tb.vhd

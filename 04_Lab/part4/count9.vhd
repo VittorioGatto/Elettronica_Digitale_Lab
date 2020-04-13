@@ -39,10 +39,10 @@ process(clk, enable, clear)
 			count <= count + speed; --default
 			
 			if tmp = "1010" then --10
-				count <= 1;
+				count <= 0;
 				tmp := "1001"; --restarts at 1
 			elsif count = 25000000 then
-				count <= 1;
+				count <= 0;
 				tmp := tmp + 1;		
 			end if;
 		end if;

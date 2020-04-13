@@ -40,7 +40,7 @@ process(clk, enable, clear)
 			
 			if tmp = "1010" then --10
 				count <= 0;
-				tmp := "1001"; --restarts at 1
+				tmp := "0001"; --restarts at 1
 			elsif count = 25000000 then
 				count <= 0;
 				tmp := tmp + 1;		

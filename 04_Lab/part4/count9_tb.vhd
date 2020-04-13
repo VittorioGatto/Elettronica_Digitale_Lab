@@ -12,27 +12,30 @@ component count9
 			enable: in std_logic;
 			clk: in std_logic;
 			clear: in std_logic;
+			speed: in integer;
 			Q: buffer unsigned(3 downto 0)
 		 );
 end component;
 
-constant clk_period: time := 10 ps;
+constant clk_period: time := 20 ns;
+constant clock_simulation: time :=  1 ns; --speed up simulation
 
 signal enable: std_logic := '1';
 signal clk: std_logic := '0';
 signal clear: std_logic := '0';
+signal speed: integer := 1000; --speed up simulation
 signal Q: unsigned(3 downto 0);
 
 begin
 
-DUT: count9 port map (enable, clk, clear, Q);
+DUT: count9 port map (enable, clk, clear, speed, Q);
 
-clk <= not clk after clk_period/2;
+clk <= not clk after clock_simulation/2;
 
 process
 	begin
 		clear <= '1'; -- wake up
-		wait for 1.1 sec; -- if you want to see it return to 0...
+		wait for 250010 ns; -- if you want to see it return to 1... (0.25 ms simulation)
 		clear <= '0';
 		wait for 20 ns;
 end process;

@@ -25,7 +25,7 @@ process(clk, enable, clear)
 	variable tmp: unsigned(3 downto 0);
 	begin
 	if clear = '0' then
-		count <= 1;
+		count <= 0;
 		tmp := (others => '0');
 		
 	elsif enable = '1' then

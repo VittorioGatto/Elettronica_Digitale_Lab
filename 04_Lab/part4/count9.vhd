@@ -18,7 +18,7 @@ architecture Behavior of count9 is
 -- (50*10^6 Hz)/1Hz = 50000000
 -- 50000000/2 = 25000000 adjustament for duty cycle (50%)
 
-signal count: integer := 1;
+signal count: integer := 0;
 
 begin
 process(clk, enable, clear)

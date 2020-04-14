@@ -40,19 +40,19 @@ DUT: reaction_timer port map (pre_start_secs, freeze, clk, restart, speed, react
 
 clk <= not clk after clock_simulation/2;
 
---1 second = 25000 ns
+--1 second = 50000 ns
 --we take into account a 10 ns margin for flip flop delays
 process
 	begin
 		restart <= '1'; -- wake up
-		wait for 50010 ns; -- 1 second of pre start + 1 second to reach button (0.05 ms simulation)
+		wait for 100010 ns; -- 1 second of pre start + 1 second to reach button (0.10 ms simulation)
 		freeze <= '0';	--won, should be reaction_time approximately = 1000
 		wait for 10 ns;
 		freeze <= '1';
 		restart <= '0'; --restarting game
 		wait for 10 ns;
 		restart <= '1';
-		wait for 250010 ns; -- if you want to see it lose... (0.25 ms simulation)
+		wait for 500010 ns; -- if you want to see it lose... (0.50 ms simulation)
 		--restart <= '0';
 		--wait for 20 ns;
 end process;

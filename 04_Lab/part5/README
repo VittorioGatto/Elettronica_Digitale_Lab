@@ -1,3 +1,8 @@
-Anche qua non c'è bisogno di importare nulla
+Importate dal lab2 segment7_decoder_nums
+
 reaction_timer.vhd
 reaction_timer_tb.vhd
+binaryToBCD.vhd
+binaryToBCD_tb.vhd
+reaction_timer_display.vhd
+reaction_timer_display_tb.vhd

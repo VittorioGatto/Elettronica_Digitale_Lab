@@ -53,8 +53,6 @@ process
 		wait for 10 ns;
 		restart <= '1';
 		wait for 500010 ns; -- if you want to see it lose... (0.50 ms simulation)
-		--restart <= '0';
-		--wait for 20 ns;
 end process;
 
 end Test;

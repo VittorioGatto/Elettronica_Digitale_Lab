@@ -45,16 +45,14 @@ clk <= not clk after clock_simulation/2;
 process
 	begin
 		KEY0 <= '1'; -- wake up
-		wait for 100010 ns; -- 1 second of pre start + 1 second to reach button (0.05 ms simulation)
+		wait for 100010 ns; -- 1 second of pre start + 1 second to reach button (0.10 ms simulation)
 		KEY3 <= '0';	--won, should be reaction_time approximately = 1000
 		wait for 10 ns;
 		KEY3 <= '1';
 		KEY0 <= '0'; --restarting game
 		wait for 10 ns;
 		KEY0 <= '1';
-		wait for 500010 ns; -- if you want to see it lose... (0.25 ms simulation)
-		--restart <= '0';
-		--wait for 20 ns;
+		wait for 500010 ns; -- if you want to see it lose... (0.50 ms simulation)
 end process;
 
 end Test;

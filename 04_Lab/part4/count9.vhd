@@ -16,12 +16,7 @@ architecture Behavior of count9 is
 
 -- 50MHz -> 20 ns clock
 -- (50*10^6 Hz)/1Hz = 50000000
--- 50000000/2 = 25000000 adjustament for duty cycle (50%)
 	
---we acknowledge that starting by zero leads to count + 1 for every 25000000 cycle
---but in order to maintain the design simple, and in the simulation add 1000
---for speed, we chose to keep it this way, considering it produces a result
---in simulation, that is wrong only by a completely insignificant number.
 
 signal count: integer := 0;
 
@@ -40,8 +35,8 @@ process(clk, enable, clear)
 			
 			if tmp = "1010" then --10
 				count <= 0;
-				tmp := "0001"; --restarts at 1
-			elsif count = 25000000 then
+				tmp := "0000"; --restarts at 0
+			elsif count = 50000000 then
 				count <= 0;
 				tmp := tmp + 1;		
 			end if;

@@ -51,7 +51,7 @@ process(clk, freeze, restart)
 			
 			case next_state is
 				when pre_start =>
-					if count_pre_start = 25000000*to_integer(pre_start_secs) then --1 second
+					if count_pre_start = 50000000*to_integer(pre_start_secs) then --1 second
 						is_counting <= '1';
 					else
 						is_counting <= '0';
@@ -65,7 +65,7 @@ process(clk, freeze, restart)
 					else
 						is_counting <= '1';
 						win_lose <= "11";
-						if ((counter_ms rem 25000) = 0) then --1 milli second
+						if ((counter_ms rem 50000) = 0) then --1 milli second
 							current_count <= count + 1;
 							count := count + 1;
 							counter_ms := counter_ms + speed;

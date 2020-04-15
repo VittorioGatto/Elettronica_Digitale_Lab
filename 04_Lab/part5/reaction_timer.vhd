@@ -49,7 +49,7 @@ process(clk, freeze, restart)
 	elsif rising_edge(clk) then
 			current_state <= next_state;
 			
-			case next_state is
+			case current_state is
 				when pre_start =>
 					if count_pre_start = 50000000*to_integer(pre_start_secs) then --1 second
 						is_counting <= '1';

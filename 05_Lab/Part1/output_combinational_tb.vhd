@@ -11,11 +11,11 @@ component output_combinational
       );
 end component;
 
-signal idle_in, det0_1_in,det0_2_in,det0_3_in,det0_4_in,det1_1_in,det1_2_in,det1_3_in,det1_4_in: std_logic;
+signal det0_4_in,det1_4_in: std_logic;
 signal z_out: std_logic;
 
 begin
-DUT: output_combinational port map (idle_in,det0_1_in,det0_2_in,det0_3_in,det0_4_in,det1_1_in,det1_2_in,det1_3_in,det1_4_in,z_out);
+DUT: output_combinational port map (det0_4_in,det1_4_in,z_out);
 
 process
   begin

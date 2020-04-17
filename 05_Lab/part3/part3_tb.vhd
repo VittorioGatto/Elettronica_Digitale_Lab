@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use work.State_types.all;
 
 entity part3_tb is
 end part3_tb;
@@ -12,7 +13,8 @@ component part3
 			resetn: in std_logic;
 			w: in std_logic;
 			z: out std_logic;
-			state: buffer std_logic_vector(8 downto 0)
+			state: out State_type;
+			state_decoded: buffer std_logic_vector(8 downto 0)
 		 );
 end component;
 
@@ -20,11 +22,12 @@ signal clk: std_logic := '0';
 signal resetn: std_logic := '0';
 signal w: std_logic := '0';
 signal z: std_logic;
-signal state: std_logic_vector(8 downto 0);
+signal state: State_type;
+signal state_decoded: std_logic_vector(8 downto 0);
 
 begin
 
-DUT: part3 port map(clk, resetn, w, z, state);
+DUT: part3 port map(clk, resetn, w, z, state, state_decoded);
 clk <= not clk after 10 ns;
 
 process

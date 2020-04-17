@@ -1,5 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use work.State_types.all;
 
 entity part3 is
 	port(
@@ -7,7 +8,8 @@ entity part3 is
 			resetn: in std_logic;
 			w: in std_logic;
 			z: out std_logic;
-			state: buffer std_logic_vector(8 downto 0)
+			state: out State_type;
+			state_decoded: buffer std_logic_vector(8 downto 0)
 		 );
 end part3;
 
@@ -20,15 +22,15 @@ component StateLookUp
 		 );
 end component;
 
-type State_type is (A, B, C, D, E, F, G, H, I);
 signal y_Q,  Y_D  :  State_type; --present state, next state
 signal y_Q_addr: integer range 0 to 8;
 
 begin 
 
 y_Q_addr <= State_type'POS(y_Q);
+state <= y_Q;
 
-S_LUT: StateLookUp port map(address => y_Q_addr, result => state);
+S_LUT: StateLookUp port map(address => y_Q_addr, result => state_decoded);
 
 ClockProcess: process(clk, resetn)
 	begin

@@ -1,11 +1,11 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity OneHot_v1_tb is
-end OneHot_v1_tb;
+entity OneHot_v2_tb is
+end OneHot_v2_tb;
 
-architecture Behavior of OneHot_v1_tb is
-  component OneHot_v1 is
+architecture Behavior of OneHot_v2_tb is
+  component OneHot_v2 is
   port( SW0: in std_logic; --resetn
         SW1: in std_logic; --w
         KEY0: in std_logic; --clock
@@ -29,6 +29,6 @@ begin
   
   w_in <= '1', '0' after 2 ns, '1' after 22 ns, '0' after 72 ns, '1' after 82 ns; 
   
-  DUT: OneHot_v1 port map(resetn_in,w_in,clock_in,z_out,states);
+  DUT: OneHot_v2 port map(resetn_in,w_in,clock_in,z_out,states);
 
 end Behavior;

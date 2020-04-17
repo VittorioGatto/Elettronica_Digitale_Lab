@@ -1,5 +1,6 @@
 Da inserire solo file in cui si attaccano i led
 
 StateLookUp.vhd (Look up table degli stati in one hot encoding)
+State_types.vhd (Utile per farvi visualizzare gli stati in forma literal sulla tb)
 part3.vhd (Macchina a stati)
 part3_tb.vhd

@@ -1,0 +1,10 @@
+Importate solo dalla parte 3 State_types.vhd aggiornata
+In ordine di dipendenze:
+
+D_FF.vhd (Versione aggiornat a 7 bit), scaricate
+shift_reg7.vhd
+shift_reg56.vhd
+ClockCounter1Hz.vhd (questo sistema tutti i problemi di clock nell'es precedente)
+part4.vhd
+seg7_to_word.vhd
+part4_tb.vhd

@@ -29,7 +29,7 @@ begin
 	begin	
 		if rising_edge(clk) then
 			if resetn = '0' then --synchronous reset
-				data_out <= parallel_load_data_in;
+				data_out <= (others => '0');
 			elsif enable = '1' then
 				if writen_shift = '0' then --parallel load
 					data_out <= parallel_load_data_in;

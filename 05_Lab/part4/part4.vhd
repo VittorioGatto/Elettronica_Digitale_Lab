@@ -59,7 +59,7 @@ ClockProcess: process(clk, KEY0, KEY3)
 	begin
 		if rising_edge(clk) then
 			if KEY0 = '0' then
-				y_Q <= start;
+				y_Q <= idle;
 			elsif KEY3 ='1' then
 				y_Q <= Y_D;
 			end if;
@@ -72,12 +72,8 @@ StateUpdateProcess: process(change_state, y_Q)
 		
 		case y_Q is
 			when idle =>
-				load <= '1'; --forces registers to parallel load
-				if change_state = '1' then
-					Y_D <= start; 
-				else 
-					Y_D <= idle;
-				end if;
+				Y_D <= start;
+				load <= '1'; --forces registers to parallel load in next state
 			when start =>
 				if change_state = '1' then
 					Y_D <= shift1; 

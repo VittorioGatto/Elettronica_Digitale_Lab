@@ -40,8 +40,8 @@ begin
   process
   begin
     control_resetn <= '0', '1' after 15 ns;
-    control_start <= '0', '1' after 35 ns;
-    wait for 30 ms;
+    control_start <= '0', '1' after 15 ns;
+    wait for 18 ms;
   end process;
       
 end Behavior;

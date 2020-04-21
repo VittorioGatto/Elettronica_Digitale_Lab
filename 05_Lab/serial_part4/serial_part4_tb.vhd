@@ -40,7 +40,7 @@ begin
   process
   begin
     control_resetn <= '0', '1' after 15 ns;
-    control_start <= '0', '1' after 15 ns;
+    control_start <= '0', '1' after 25 ns;
     wait for 18 ms;
   end process;
       

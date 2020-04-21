@@ -66,19 +66,11 @@ StateUpdateProcess: process(change_state, y_Q)
 	begin
 		case y_Q is
 			when IDLE =>
-				Y_D <= START;
+				Y_D <= H;
 				c_loop <= '0';
 				c_load <= '0';
 				c_enable <= '0';
 				c_resetn <= '0';
-				serial_input <= "1111111";
-				
-				when START =>
-				Y_D <= H;
-				c_loop <= '0';
-				c_load <= '1';
-				c_enable <= '1';
-				c_resetn <= '1';
 				serial_input <= "1111111";
 				
 			when H =>
@@ -86,7 +78,7 @@ StateUpdateProcess: process(change_state, y_Q)
 				c_loop <= '0';
 				c_enable <= '1';
 				c_resetn <= '1';
-				if change_state'event and change_state = '1' then
+				if KEY1 = '1' then
 				  c_load <= '1'; 
 					Y_D <= E;
 				else 
@@ -99,7 +91,7 @@ StateUpdateProcess: process(change_state, y_Q)
 			  c_loop <= '0';
 			  c_enable <= '1';
 				c_resetn <= '1';
-				if change_state'event and change_state = '1' then
+				if change_state = '1' then
 				  c_load <= '1';
 					Y_D <= L1;
 				else 
@@ -112,7 +104,7 @@ StateUpdateProcess: process(change_state, y_Q)
 			  c_loop <= '0';
 			  c_enable <= '1';
 				c_resetn <= '1';
-				if change_state'event and change_state = '1' then
+				if change_state = '1' then
 				  c_load <= '1';
 					Y_D <= L2; 
 				else
@@ -125,7 +117,7 @@ StateUpdateProcess: process(change_state, y_Q)
 			  c_loop <= '0';
 			  c_enable <= '1';
 				c_resetn <= '1';
-				if change_state'event and change_state = '1' then
+				if change_state = '1' then
 				  c_load <= '1';
 					Y_D <= O; 
 				else 
@@ -138,7 +130,7 @@ StateUpdateProcess: process(change_state, y_Q)
 			  c_loop <= '0';
 			  c_enable <= '1';
 				c_resetn <= '1';
-				if change_state'event and change_state = '1' then
+				if change_state = '1' then
 				  c_load <= '1';
 					Y_D <= X1; 
 				else 
@@ -151,7 +143,7 @@ StateUpdateProcess: process(change_state, y_Q)
 			  c_loop <= '0';
 			  c_enable <= '1';
 				c_resetn <= '1';
-				if change_state'event and change_state = '1' then
+				if change_state = '1' then
 				  c_load <= '1';
 					Y_D <= X2; 
 				else 
@@ -164,7 +156,7 @@ StateUpdateProcess: process(change_state, y_Q)
 			  c_loop <= '0';
 			  c_enable <= '1';
 				c_resetn <= '1';
-				if change_state'event and change_state = '1' then
+				if change_state = '1' then
 				  c_load <= '1';
 					Y_D <= X3; 
 				else 
@@ -177,7 +169,7 @@ StateUpdateProcess: process(change_state, y_Q)
 			  c_loop <= '0';
 			  c_enable <= '1';
 				c_resetn <= '1';
-				if change_state'event and change_state = '1' then
+				if change_state = '1' then
 				  c_load <= '1';
 					Y_D <= LOCK; 
 				else 
@@ -191,7 +183,7 @@ StateUpdateProcess: process(change_state, y_Q)
 			  c_enable <= '1';
 				c_resetn <= '1';
 			  Y_D <= LOCK; 
-				if change_state'event and change_state = '1' then
+				if change_state = '1' then
 				  c_load <= '1';
 				 else
 				   c_load <= '0';

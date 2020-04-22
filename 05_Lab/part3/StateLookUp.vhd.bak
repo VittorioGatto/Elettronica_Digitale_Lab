@@ -1,6 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use work.State_types.all;
+use work.serial_state_types.all;
 
 --Behavioral implementation of look up table
 entity StateLookUp is

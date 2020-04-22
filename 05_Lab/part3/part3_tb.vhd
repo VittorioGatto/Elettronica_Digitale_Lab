@@ -13,8 +13,7 @@ component part3
 			resetn: in std_logic;
 			w: in std_logic;
 			z: out std_logic;
-			state: out State_type;
-			state_decoded: buffer std_logic_vector(8 downto 0)
+			state: out State_type
 		 );
 end component;
 
@@ -23,11 +22,11 @@ signal resetn: std_logic := '0';
 signal w: std_logic := '0';
 signal z: std_logic;
 signal state: State_type;
-signal state_decoded: std_logic_vector(8 downto 0);
+
 
 begin
 
-DUT: part3 port map(clk, resetn, w, z, state, state_decoded);
+DUT: part3 port map(clk, resetn, w, z, state); 
 clk <= not clk after 10 ns;
 
 process

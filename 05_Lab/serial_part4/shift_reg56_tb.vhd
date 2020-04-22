@@ -13,7 +13,7 @@ component shift_reg56 is
 			resetn: in std_logic;
 			load: in std_logic; --tells registers to load
 			closed_loop: in std_logic;--tells if the loop must be closed
-			s_in: in std_logic_vector(0 to 6);
+			serial_in: in std_logic_vector(0 to 6);
 			data_out: buffer std_logic_vector(55 downto 0)
 		);
 end component;

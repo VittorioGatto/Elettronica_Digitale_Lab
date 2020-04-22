@@ -1,33 +1,28 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use work.serial_state_types.all;
 
-entity part3_tb is
-end part3_tb;
+entity LEDs_part3_tb is
+end LEDs_part3_tb;
 
-architecture Test of part3_tb is
-
-component part3
-	port(
-			clk: in std_logic;
-			resetn: in std_logic;
-			w: in std_logic;
-			z: out std_logic;
-			state: out State_type;
-			state_decoded: buffer std_logic_vector(8 downto 0)
-		 );
+architecture Test of LEDs_part3_tb is
+component LEDs_part3
+  port( SW0: in std_logic; --resetn
+        SW1: in std_logic; --w
+        KEY0: in std_logic; --clock
+        LEDG0: out std_logic; --z
+        LEDR8_0: buffer std_logic_vector (8 downto 0) --states
+      );
 end component;
-
-signal clk: std_logic := '0';
+  
 signal resetn: std_logic := '0';
 signal w: std_logic := '0';
+signal clk: std_logic := '0';
 signal z: std_logic;
-signal state: State_type;
 signal state_decoded: std_logic_vector(8 downto 0);
 
 begin
 
-DUT: part3 port map(clk, resetn, w, z, state, state_decoded);
+DUT: LEDs_part3 port map(resetn, w, clk, z, state_decoded);
 clk <= not clk after 10 ns;
 
 process
@@ -45,6 +40,3 @@ process
 		wait for 40 ns;
 end process;
 end Test;
-		
-	
-	

@@ -42,7 +42,7 @@ signal serial_input: std_logic_vector(0 to 6); --input chain of registers
 
 begin 
 
-TIMER: ClockCounter1Hz port map(CLOCK_50, KEY0, KEY1, 1000000, change_state);
+TIMER: ClockCounter1Hz port map(CLOCK_50, KEY0, KEY1, 1000, change_state);
 
 --Shift register
 SHIFT_REG: shift_reg56 port map(CLOCK_50, KEY0, load, closed_loop, serial_input, HEX7_0);

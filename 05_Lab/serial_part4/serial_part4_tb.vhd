@@ -42,7 +42,7 @@ begin
 			wait for 20 ns;
 			resetn <= '1';
 			enable <= '1';
-			wait for 2000010 ns; -- see what happens in 20 seconds
+			wait for 20 ms; -- see what happens in 20 seconds
 	end process;
       
 end Behavior;

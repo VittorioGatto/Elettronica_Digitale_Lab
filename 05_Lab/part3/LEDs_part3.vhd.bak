@@ -1,6 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use work.State_types.all;
+use work.serial_state_types.all;
 
 entity LEDs_part3 is
   port( SW0: in std_logic; --resetn
@@ -18,17 +18,25 @@ architecture Behavior of LEDs_part3 is
 			resetn: in std_logic;
 			w: in std_logic;
 			z: out std_logic;
-			state: out State_type;
-			state_decoded: buffer std_logic_vector(8 downto 0)
+			state: out State_type
 		 );
 end component;
+
+component StateLookUp
+  port(
+			 current_state: in State_type;
+			 result: out std_logic_vector(8 downto 0)
+		  );
+  end component;
   
-  signal states_vector:std_logic_vector(8 downto 0);
-  signal current_state_out: State_type; --una delle due saranno da eliminare quando scegliamo l'implementazione della LUT
+    
+ signal current_state_out: State_type;
   
   begin
-    in_reg: part3 port map(KEY0,SW1,SW0,LEDG0,current_state_out,states_vector);
-	 LEDR8_0 <= states_vector;
-
+    
+    in_reg: part3 port map(KEY0,SW1,SW0,LEDG0,current_state_out);
+      
+    S_LUT: StateLookUp port map(current_state => current_state_out, result => LEDR8_0);
+	 
 
 end Behavior;

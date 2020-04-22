@@ -25,7 +25,7 @@ begin
 		when G => result <= "001000000";
 		when H => result <= "010000000";
 		when I => result <= "100000000";
-		when others => result <= "000000001"; --reset
+		when others => result <= "000000000"; --reset
 	end case;
 end process;
 end Behavior;

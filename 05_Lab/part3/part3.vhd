@@ -1,26 +1,18 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use work.serial_tate_types.all;
+use work.serial_state_types.all;
 
 entity part3 is
 	port(
 			clk: in std_logic;
-			resetn: in std_logic;
+			resetn: in std_logic; -- reset con 0
 			w: in std_logic;
 			z: out std_logic;
-			state: out State_type;
-			state_decoded: buffer std_logic_vector(8 downto 0)
+			state: out State_type
 		 );
 end part3;
 
 architecture Behavior of part3 is
-
-component StateLookUp
-	port(
-			current_state: in State_type;
-			result: out std_logic_vector(8 downto 0)
-		 );
-end component;
 
 signal y_Q,  Y_D  :  State_type; --present state, next state
 
@@ -28,7 +20,6 @@ begin
 
 state <= y_Q;
 
-S_LUT: StateLookUp port map(current_state => y_Q, result => state_decoded);
 
 ClockProcess: process(clk)
 	begin

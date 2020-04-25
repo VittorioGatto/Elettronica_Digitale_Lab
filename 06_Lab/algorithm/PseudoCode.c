@@ -30,7 +30,7 @@ int main(){
     generateRandoms(-128, 127); //remove befor pasting
     writeMEM_A(data_in);
     
-    for(int i = 0; i < 1023; i++){
+    for(int i = 0; i < 1024; i++){
         current_address = i;
         
         y = processX(MEM_A[i]);
@@ -43,7 +43,7 @@ int main(){
     done = 1;
     
     printf("-------OUTPUT DATA---------\n");
-    for(int i = 0; i < 1023; i++)
+    for(int i = 0; i < 1024; i++)
         printf("%d \n", MEM_B[i]);
     
     return 1;
@@ -54,7 +54,7 @@ void writeMEM_A(int data_in[]){
     wr = 1;
     rd = 0;
     
-    for(int i = 0; i < 1023; i++){
+    for(int i = 0; i < 1024; i++){
         MEM_A[i] = data_in[i];
     }
 }
@@ -80,7 +80,7 @@ void writeMEM_B(int y){
 
 //remove before pasting
 void generateRandoms(int lower, int upper){
-    for (int i = 0; i < 1023; i++) {
+    for (int i = 0; i < 1024; i++) {
         data_in[i] = (rand() %
            (upper - lower + 1)) + lower;
         printf("%d \n", data_in[i]);

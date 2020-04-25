@@ -1,15 +1,20 @@
 //
-//  PseudoCode.c
+//  PseudoCode
+//
+//
 
 #include <stdio.h>
+#include <stdlib.h> //remove before pasting
 
+int data_in[1024] = { 0 };
 int MEM_A[1024] = { 0 };
 int MEM_B[1024]  = { 0 };
+
 int current_address = 0; //current address reading/writing
-bool cs = false; //chip select 0 MEM_B 1 MEM_A
-bool wr = false; //register write
-bool rd = false; //register read
-bool done = false; //signal done
+int cs = 0; //chip select 0 MEM_B 1 MEM_A
+int wr = 0; //register write
+int rd = 0; //register read
+int done = 0; //signal done
 
 int previousX = 0; //previous input x (datapath) examined
 int previousXsum = 0; //previous sum of x's(sommatoria Ki)
@@ -17,13 +22,15 @@ int previousXsum = 0; //previous sum of x's(sommatoria Ki)
 void writeMEM_A(int data_in[]);
 int processX(int x); //process datapath, returns y (see scheme)
 void writeMEM_B(int y);
+void generateRandoms(int lower, int upper);
 
-void main(){
+int main(){
     int y;
     
-    writeMEM_A(addresses);
+    generateRandoms(-128, 127); //remove befor pasting
+    writeMEM_A(data_in);
     
-    for(int i = 0; i <= 1023; i++){
+    for(int i = 0; i < 1023; i++){
         current_address = i;
         
         y = processX(MEM_A[i]);
@@ -33,24 +40,30 @@ void main(){
         previousX = MEM_A[i];
     }
     
-    done = true;
+    done = 1;
+    
+    printf("-------OUTPUT DATA---------\n");
+    for(int i = 0; i < 1023; i++)
+        printf("%d \n", MEM_B[i]);
+    
+    return 1;
 }
 
 void writeMEM_A(int data_in[]){
-    cs = true; //selected MEM_A
-    wr = true;
-    rd = false;
+    cs = 1; //selected MEM_A
+    wr = 1;
+    rd = 0;
     
-    for(int i = 0; i <= 1023; i++){
+    for(int i = 0; i < 1023; i++){
         MEM_A[i] = data_in[i];
     }
 }
 
 //Datapath
 int processX(int x){
-    cs = true; //selected MEM_A
-    wr = false;
-    rd = true; // reading MEM_A
+    cs = 1; //selected MEM_A
+    wr = 0;
+    rd = 1; // reading MEM_A
     
     int y = 3.75*x + 2*(x + previousXsum) + 0.5*(x - previousX);
     
@@ -58,9 +71,20 @@ int processX(int x){
 }
 
 void writeMEM_B(int y){
-    cs = false; //selected MEM_B
-    wr = true; //writing MEM_B
-    read = false;
+    cs = 0; //selected MEM_B
+    wr = 1; //writing MEM_B
+    rd = 0;
     
     MEM_B[current_address] = y;
 }
+
+//remove before pasting
+void generateRandoms(int lower, int upper){
+    for (int i = 0; i < 1023; i++) {
+        data_in[i] = (rand() %
+           (upper - lower + 1)) + lower;
+        printf("%d \n", data_in[i]);
+    }
+}
+
+

@@ -14,7 +14,7 @@ architecture Behavior of Saturation is
 
 signal sign: std_logic_vector(nbit-2 downto 7); --sign of result
 signal overflow: std_logic_vector(nbit-2 downto 7);
-constant true: std_logic_vector(nbit-2 downto 7) := (others => '1'); --simple bit 1 in n bits
+constant ones: std_logic_vector(nbit-2 downto 7) := (others => '1'); --simple vector of ones
 
 begin 
 
@@ -29,7 +29,7 @@ overflow <= sign XNOR std_logic_vector(data_in(nbit-2 downto 7));
 process(data_in, overflow)
 	begin
 	
-	if overflow = true then
+	if overflow = ones then
 		data_out <= resize(data_in, 8);
 	else
 		if data_in(nbit-1) = '0' then --positive

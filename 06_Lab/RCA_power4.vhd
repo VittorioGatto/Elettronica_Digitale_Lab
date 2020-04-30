@@ -6,7 +6,7 @@ use ieee.numeric_std.all;
 --Its only purpose is to link blocks of RCA_4bits for the necessary generic n bits
 
 entity RCA_power4 is
-	generic(n: integer:=12); --n bits MUST BE MULTIPLE OF 4!!
+	generic(n: integer:=20); --n bits MUST BE MULTIPLE OF 4!!
 	port(
 			a, b: in std_logic_vector(n-1 downto 0);
 			c_in: in std_logic;

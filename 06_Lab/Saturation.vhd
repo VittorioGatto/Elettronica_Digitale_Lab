@@ -9,8 +9,7 @@ entity Saturation is
 			--01 not overflow, negative number
 			--10 overflow, positive number
 			--11 overflow, negative number
-			overflow: out std_logic_vector(1 downto 0);
-			data_out: out signed(7 downto 0)
+			overflow: out std_logic_vector(1 downto 0)
 		 );
 end entity;
 
@@ -39,17 +38,15 @@ process(data_in, overflow_detect)
 		else 							  --negative
 			overflow <= "01";
 		end if;
-		
-		data_out <= resize(data_in, 8); --data resized for 8 bits
+
 	else 									--overflow detected
 		if data_in(19) = '0' then --positive
 			overflow <= "10";
-			data_out <= "01111111"; --+127
 		else 							  --negative
 			overflow <= "11";
-			data_out <= "10000000"; --128
 		end if;
 	end if;
+
 end process;
 end Behavior;
 				

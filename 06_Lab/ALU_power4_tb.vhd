@@ -8,7 +8,7 @@ end ALU_power4_tb;
 architecture Behavior of ALU_power4_tb is
 
 component ALU_power4
-	generic(n: integer:=12);
+	generic(n: integer:=20);
 	port(
 			a, b: in signed(n-1 downto 0);
 			c_in: in std_logic;
@@ -21,7 +21,7 @@ component ALU_power4
 end component;
 
 
-constant n: integer:=12;
+constant n: integer:=20;
 signal a_in, b_in: signed(n-1 downto 0);
 signal c_in: std_logic := '0';
 signal opcode: std_logic;

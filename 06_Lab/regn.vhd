@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity regn is
-	generic(n: integer:=12);
+	generic(n: integer:=20);
 	port(
 			R: in signed(n-1 downto 0);
 			Clock, Resetn, Load: in std_logic;

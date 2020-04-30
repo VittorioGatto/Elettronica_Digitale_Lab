@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 -- MUX2to1 wide n bits
 entity MUX2NtoN is
-	generic(n: integer:=12);
+	generic(n: integer:=20);
 	port(
 			x, y: in std_logic_vector((n-1) downto 0); --inputs
 			s: in std_logic; --selector

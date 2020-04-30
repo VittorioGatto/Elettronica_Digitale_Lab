@@ -7,7 +7,7 @@ end MUX2NtoN_tb;
 architecture Behavior of MUX2NtoN_tb is
 
 component MUX2NtoN 
-	generic(n: integer:=12);
+	generic(n: integer:=20);
 	port(
 			x, y: in std_logic_vector((n-1) downto 0); --inputs
 			s: in std_logic; --selector
@@ -15,7 +15,7 @@ component MUX2NtoN
 		 );
 end component;
 
-constant n_set: integer:=12;
+constant n_set: integer:=20;
 
 signal X_in: std_logic_vector((n_set-1) downto 0);
 signal Y_in: std_logic_vector((n_set-1) downto 0);
@@ -23,8 +23,8 @@ signal s_in: std_logic;
 signal M_out: std_logic_vector((n_set-1) downto 0);
 
 begin
-  X_in <= "111111111111"; -- we set constants only for demonstration purposes, X and Y
-  Y_in <= "000000000000"; 
+  X_in <= "11111111111111111111"; -- we set constants only for demonstration purposes, X and Y
+  Y_in <= "00000000000000000000"; 
 	DUT: MUX2NtoN 
 	generic map (n_set) 
 	port map (x => X_in, y=> Y_in, s => s_in, m => M_out);

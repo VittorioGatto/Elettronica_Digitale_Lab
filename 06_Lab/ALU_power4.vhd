@@ -7,7 +7,7 @@ use ieee.numeric_std.all;
 --opcode: simplified opcode, 0 if addition, 1 if subtraction
 
 entity ALU_power4 is
-	generic(n: integer:=12); --n bits MUST BE MULTIPLE OF 4!!
+	generic(n: integer:=20); --n bits MUST BE MULTIPLE OF 4!!
 	port(
 			a, b: in signed(n-1 downto 0);
 			c_in: in std_logic;
@@ -22,7 +22,7 @@ end ALU_power4;
 architecture Behavior of ALU_power4 is
 
 component MUX2NtoN
-	generic(n: integer:=12);
+	generic(n: integer:=20);
 	port(
 			x, y: in std_logic_vector((n-1) downto 0);
 			s: in std_logic;
@@ -31,7 +31,7 @@ component MUX2NtoN
 end component;
 
 component RCA_power4
-	generic(n: integer:=12);
+	generic(n: integer:=20);
 	port(
 			a, b: in std_logic_vector(n-1 downto 0);
 			c_in: in std_logic;

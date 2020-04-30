@@ -8,7 +8,7 @@ end regn_tb;
 architecture Behavior of regn_tb is
 
 component regn
-	generic(n: integer:=12);
+	generic(n: integer:=20);
 	port(
 			R: in signed(n-1 downto 0);
 			Clock, Resetn, Load: in std_logic;
@@ -16,7 +16,7 @@ component regn
 		  );
 end component;
 
-constant n: integer := 12;
+constant n: integer := 20;
 signal R_IN: signed(n-1 downto 0);
 signal Clock_IN: std_logic;
 signal Resetn_IN: std_logic;
@@ -41,19 +41,19 @@ end process;
   -- generate input
 process  
 begin
-  R_IN <= "101010101010";
+  R_IN <= "10101010101010101010";
   wait for 2 ns;
    
-  R_IN <= "010101010101";
+  R_IN <= "01010101010101010101";
   wait for 6 ns;
   
-  R_IN <= "111111111111";
+  R_IN <= "11111111111111111111";
   wait for 8 ns;
   
-  R_IN <= "111111111111";
+  R_IN <= "11111111111111111111";
   wait for 6 ns; 
   
-  R_IN <= "100000000001";
+  R_IN <= "10000000000111111111";
   wait for 6 ns; 
   
 end process;

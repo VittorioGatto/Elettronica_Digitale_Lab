@@ -8,21 +8,21 @@ end Saturation_tb;
 architecture Test of Saturation_tb is
 
 component Saturation
-	generic(nbit: integer := 12);
 	port(
-			data_in: in signed(nbit-1 downto 0);
+			data_in: in signed(19 downto 0);
+			overflow: out std_logic_vector(1 downto 0);
 			data_out: out signed(7 downto 0)
 		 );
 end component;
 
-constant n: integer := 12;
+constant n: integer := 20;
 signal data_in: signed(n-1 downto 0);
+signal overflow: std_logic_vector(1 downto 0);
 signal data_out: signed(7 downto 0);
 
 begin
 
-DUT: Saturation generic map(n)
-						 port map(data_in, data_out);
+DUT: Saturation port map(data_in, overflow, data_out);
 
 process
 	begin

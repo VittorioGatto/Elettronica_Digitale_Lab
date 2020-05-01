@@ -14,6 +14,7 @@ for  decimal =    -128:1:127
     
     %moltiplicazione per 3.75
     left_shift(1,1:6) = bit(1,3:8);     %moltiplicazione binaria per 2^2
+    %se è positivo
     if(bit(1) == 0)
         right_shift(1,3:8) = bit(1,1:6);    %moltiplicazione binaria per 2^-2
         right_shift = not(right_shift);     %complemento a 1

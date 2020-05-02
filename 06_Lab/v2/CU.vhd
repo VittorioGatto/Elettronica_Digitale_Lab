@@ -91,10 +91,7 @@ architecture Behavior of CU is
 					Y_D <= WRITE_A;
 				end if;
 			
-			when DONE_A =>
-			  Y_D <= READ_EK;
-			  
-			when READ_EK =>
+			when DONE_A => --ready to start operations: load the first error in e_k
 			  Y_D <= BLOCK_P;
 			  
 			when BLOCK_P =>
@@ -116,10 +113,13 @@ architecture Behavior of CU is
 			  Y_D <= WRITE_B;
 			  
 			when WRITE_B =>
+					Y_D <= READ_B;
+			
+			when READ_B => --only for testing purposes!
 			  if counter = "1111111111" then
 					Y_D <= DONE_B;
 				else 
-					Y_D <= WRITE_B;
+					Y_D <= READ_B;
 				end if;
 			
 			when DONE_B =>
@@ -164,20 +164,14 @@ architecture Behavior of CU is
 				when IDLE =>
 				  internal_resetn <= '0';
 				  status <= "11";
-				  current_address <= address;
 				
 				when WRITE_A =>
+				  current_address <= address; 
 				  r_wn <= '0';  --write in MEM_A
-				  MUX_selector <= "101";
 				  status <= "00";
-				  current_address <= address;
 				  
 				when DONE_A =>
-				  internal_resetn <= '0'; --reset the counter to restart it
-				  
-				when READ_EK =>
 				  Le_k <= '1';  --load e_k
-				  Le_k1 <= '1';
 				  
 				when BLOCK_P =>
 				  LP <= '1';    --load P
@@ -208,17 +202,19 @@ architecture Behavior of CU is
 				when WRITE_B =>
 				  r_wn <= '0';
 				  CS <= '0';  --write in MEM_B
-				  MUX_selector <= "101";
-				  ENcnt <= '1'; --increment counter
+				  
+				when READ_B => --only for testing purposes!
+				   current_address <= address; 	
+					CS <= '0'; --read from MEM_B u[k] that has just been written								
+					status <= "10";
+					MUX_selector <= "101";	--last operations of the datapath
+					ENcnt <= '1'; --increment counter
+					Le_k1 <= '1'; --update e[k-1]
 				
-				when DONE_B =>
-				  r_wn <= '1';
-				  CS <= '0';  --read in MEM_B
-				  status <= "10";
-				  current_address <= address;
-				 
-			  when others => 
+				when DONE_B =>					
 				  status <= "11";
+			  when others => 
+			  
 		end case;
 		
   end process;

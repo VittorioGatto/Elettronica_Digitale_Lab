@@ -47,7 +47,7 @@ begin
 process
 	variable vec_line : line;
    variable tmp_out: bit_vector(7 downto 0);
-   file data_file: text is in "test_data_in.txt";
+   file data_file: text;
 	
 	begin
 		resetn <= '0';
@@ -61,6 +61,8 @@ process
 		wait until status = "00";
 		
 		mode_file <= '0'; --read file
+		
+		file_open(data_file, "test_data_in.txt", read_mode);
 		while (current_address < 1023) and (not endfile(data_file)) loop
 			current_address <= current_address + 1;
 			
@@ -70,18 +72,31 @@ process
 			error_read <= signed(to_stdlogicvector(tmp_out));
 			wait for 20 ns; --trick to simulate clock
 		end loop;
+		file_close(data_file);
 		
 		current_address <= (others => '0');
 		start_process <= '1';
 		
 		wait until status = "10";
 		
+		start_process <= '0';
+		
 		mode_file <= '1';
+		
+		---
+		file_open(data_file, "test_data_out.txt", write_mode);
 		
 		for i in 0 to 1023 loop --write external file
 			current_address <= to_unsigned(i, current_address'length);
-			wait for 20 ns;
+			wait for 20 ns; --trick to simulate clock
+			
+			write (vec_line, error_bitvector);
+			writeline (data_file, vec_line);
+			
 		end loop;
+		
+		file_close(data_file);
+		---
 		
 		wait for 20 ns;
 		
@@ -89,21 +104,7 @@ process
 		mode_file <= '0';
 		start_in <= '0'; --restart
 		
-		wait for 20 ns;
-end process;
-
-WRITE_FILE: process(error_bitvector, mode_file)
-	variable vec_line : line;
-   file data_file: text;
-	begin
-		if mode_file = '1' then
-			file_open(data_file, "test_data_out.txt", write_mode);
-			
-			write (vec_line, error_bitvector);
-			writeline (data_file, vec_line);
-			
-			file_close(data_file);
-		end if;
+		wait until status = "00";
 end process;
 
 end Test;	

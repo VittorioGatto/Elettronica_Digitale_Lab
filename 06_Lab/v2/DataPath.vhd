@@ -75,7 +75,7 @@ component MUX6NtoN
 
 begin
   --read data from MEM_A
-  resized_error <= resize(current_error, n);  -- represent the input number on 12 bits
+  resized_error <= resize(current_error, n);  -- represent the input number on 20 bits
   REGe_k: regn port map (resized_error, clock, resetn, LOADe_k, e_k); --current input e[k]
   REGe_k1: regn port map (e_k, clock, resetn, LOADe_k1, e_k1); --previous input e[k-1]
   

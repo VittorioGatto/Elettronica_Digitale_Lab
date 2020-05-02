@@ -62,8 +62,8 @@ process
 		
 		mode_file <= '0'; --read file
 		
-		file_open(data_file, "test_data_in.txt", read_mode);
-		while (current_address < 1023) and (not endfile(data_file)) loop
+		file_open(data_file, "test_data_in_bit.txt", read_mode);
+		while (current_address < 1024) and (not endfile(data_file)) loop
 			current_address <= current_address + 1;
 			
 			readline (data_file, vec_line);

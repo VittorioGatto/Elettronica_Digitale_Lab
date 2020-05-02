@@ -13,7 +13,7 @@ architecture Behavior of DataPath_tb is
         MUX_sel: in std_logic_vector(2 downto 0);
         sub_sumn, LOADe_k, LOADe_k1, LOADP, LOADsum, LOADI, LOADdif, LOADD, LOADS1, LOADS2, ENABLEcnt: in std_logic;
         controlled_saturation: in std_logic_vector(1 downto 0);
-        cnt: buffer signed(n-1 downto 0);
+        cnt: buffer signed(9 downto 0);
         check_saturation: out std_logic_vector(1 downto 0);
         current_output: out signed(7 downto 0)
       );
@@ -26,7 +26,7 @@ signal sel_in: std_logic_vector(2 downto 0);
 signal LDe_k, LDe_k1, LDP, LDsum, LDI, LDdif, LDD, LDS1, LDS2, ENcnt: std_logic;
 signal sat_in, sat_out: std_logic_vector(1 downto 0);
 signal opcode: std_logic;
-signal counter: signed(n-1 downto 0);
+signal counter: signed(9 downto 0);
 
 
 begin

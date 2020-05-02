@@ -119,7 +119,7 @@ architecture Behavior of CU is
 			  if counter = "1111111111" then
 					Y_D <= DONE_B;
 				else 
-					Y_D <= READ_B;
+					Y_D <= DONE_A;
 				end if;
 			
 			when DONE_B =>

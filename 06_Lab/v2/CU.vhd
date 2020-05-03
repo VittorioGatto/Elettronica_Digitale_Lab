@@ -7,7 +7,8 @@ entity CU is
   port( resetn_in, start_in, clock_in: in std_logic;
 		  address: in std_logic_vector(9 downto 0); --address to read/write from outside
 		  start_process: in std_logic; --tells CU to start processing data (1)
-        data_in: in signed(7 downto 0);
+		  done_testing: in std_logic; --tells CU to wait the new start input
+      data_in: in signed(7 downto 0);
 		  data_out: out signed(7 downto 0);
 		  --status 00: waiting data_in to be written in mem_a
 		  --status 01: processing and writing mem_b
@@ -23,7 +24,7 @@ architecture Behavior of CU is
 	  port( current_error: in signed(7 downto 0);
 			  clock, resetn: in std_logic;
 			  MUX_sel: in std_logic_vector(2 downto 0);
-			  sub_sumn, LOADe_k, LOADe_k1, LOADP, LOADsum, LOADI, LOADdif, LOADD, LOADS1, LOADS2, ENABLEcnt: in std_logic;
+			  sub_sumn, LOADe_k, LOADe_k1, LOADP, LOADsum, LOADI, LOADdif, LOADD, LOADS1, LOADS2, LOADu_k, ENABLEcnt: in std_logic;
 			  controlled_saturation: in std_logic_vector(1 downto 0);
 			  cnt: buffer signed(9 downto 0);
 			  check_saturation: out std_logic_vector(1 downto 0);
@@ -48,7 +49,7 @@ architecture Behavior of CU is
   signal CS, CSn, r_wn: std_logic;--MEM controls
   signal e_current, u_current: signed(7 downto 0);--internal signals
   signal MUX_selector: std_logic_vector(2 downto 0);--MUXes selector
-  signal operation, Le_k, Le_k1, LP, Lsum, LI, Ldif, LD, LS1, LS2, ENcnt: std_logic;--DataPath controls
+  signal operation, Le_k, Le_k1, LP, Lsum, LI, Ldif, LD, LS1, LS2, Lu_k, ENcnt: std_logic;--DataPath controls
   signal saturation_received, saturation_decision: std_logic_vector(1 downto 0);--saturation controls
   signal current_address: std_logic_vector(9 downto 0);
   
@@ -61,7 +62,7 @@ architecture Behavior of CU is
     
   DP: DataPath generic map (20)
 					port map (e_current, clock_in, internal_resetn, MUX_selector,
-								 operation, Le_k, Le_k1, LP, Lsum, LI, Ldif, LD, LS1, LS2, ENcnt,
+								 operation, Le_k, Le_k1, LP, Lsum, LI, Ldif, LD, LS1, LS2, Lu_k, ENcnt,
                          saturation_decision, counter, saturation_received, u_current);
 								 
 								 
@@ -113,13 +114,17 @@ architecture Behavior of CU is
 			  Y_D <= WRITE_B;
 			  
 			when WRITE_B =>
-					Y_D <= READ_B;
-			
-			when READ_B => --only for testing purposes!
 			  if counter = "1111111111" then
-					Y_D <= DONE_B;
+					Y_D <= READ_B;
 				else 
 					Y_D <= DONE_A;
+				end if;
+			
+			when READ_B => --only for testing purposes!
+			  if done_testing = '1' then
+					Y_D <= DONE_B;
+				else 
+					Y_D <= READ_B;
 				end if;
 			
 			when DONE_B =>
@@ -157,6 +162,7 @@ architecture Behavior of CU is
 		LD <= '0';
 		LS1 <= '0';
 		LS2 <= '0';
+		Lu_k <= '0';
 		status <= "01"; --default: processing
 		current_address <= std_logic_vector(counter); --processing state counter
 				
@@ -166,7 +172,7 @@ architecture Behavior of CU is
 				  status <= "11";
 				
 				when WRITE_A =>
-				  current_address <= address; 
+				  current_address <= address; --external
 				  r_wn <= '0';  --write in MEM_A
 				  status <= "00";
 				  
@@ -198,22 +204,25 @@ architecture Behavior of CU is
 				  
 				when SAT_CONTROL =>
 				  saturation_decision <= saturation_received;
+				  Lu_k <= '1';
 				  
 				when WRITE_B =>
 				  r_wn <= '0';
 				  CS <= '0';  --write in MEM_B
-				  
-				when READ_B => --only for testing purposes!
-				   current_address <= address; 	
-					CS <= '0'; --read from MEM_B u[k] that has just been written								
-					status <= "10";
 					MUX_selector <= "101";	--last operations of the datapath
 					ENcnt <= '1'; --increment counter
 					Le_k1 <= '1'; --update e[k-1]
+				  
+				when READ_B => --only for testing purposes!				  
+				  status <= "10";
+				  current_address <= address; 	--external
+					CS <= '0'; --read from MEM_B
 				
 				when DONE_B =>					
 				  status <= "11";
+				  
 			  when others => 
+				  status <= "11";
 			  
 		end case;
 		

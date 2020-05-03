@@ -7,7 +7,7 @@ entity DataPath is
   port( current_error: in signed(7 downto 0);
         clock, resetn: in std_logic;
         MUX_sel: in std_logic_vector(2 downto 0);
-        sub_sumn, LOADe_k, LOADe_k1, LOADP, LOADsum, LOADI, LOADdif, LOADD, LOADS1, LOADS2, ENABLEcnt: in std_logic;
+        sub_sumn, LOADe_k, LOADe_k1, LOADP, LOADsum, LOADI, LOADdif, LOADD, LOADS1, LOADS2, LOADu_k, ENABLEcnt: in std_logic;
         controlled_saturation: in std_logic_vector(1 downto 0);
         cnt: buffer signed(9 downto 0); --fix it, it is UNsigned
         check_saturation: out std_logic_vector(1 downto 0);
@@ -70,7 +70,7 @@ component MUX6NtoN
   signal resized_error, e_k, e_k1, e_k4, e_k025: signed(n-1 downto 0);
   signal left_addend, right_addend, result_adder: signed(n-1 downto 0); -- signals to be selected by the MUXes
   signal P_out, sum_out, sum_out2, I_out, dif_out, dif_out05, D_out, S1_out, S2_out: signed(n-1 downto 0); --output registers
-  
+  signal u_k: signed(7 downto 0);--register with data that has to be written in MEM_B
   signal cnt_resized: signed(19 downto 0); --fix it
 
 begin
@@ -100,6 +100,11 @@ begin
   --BLOCK S2
   REGS2: regn port map(result_adder, clock, resetn, LOADS2, S2_out); --block S1 + block D
     
+  --OUTPUT
+  REGu_k: regn 
+        generic map(8)
+        port map(u_k, clock, resetn, LOADu_k, current_output); --final output, to be written in MEM_B
+    
   --INCREMENT COUNTER
   REGcnt: regn
 			 generic map (10)
@@ -113,7 +118,7 @@ begin
   MUX_left: MUX6NtoN port map(e_k4, sum_out, e_k, P_out, S1_out, cnt_resized, MUX_sel, left_addend); --fix it
   MUX_right: MUX6NtoN port map(e_k025, e_k, e_k1, I_out, D_out, "00000000000000000001", MUX_sel, right_addend);
     
-  MUX_saturation: MUX3NtoN port map("01111111", "10000000", S2_out(7 downto 0), controlled_saturation, current_output);--the output is chosen by the CU
+  MUX_saturation: MUX3NtoN port map("01111111", "10000000", S2_out(7 downto 0), controlled_saturation, u_k);--the output is chosen by the CU
   
   --ALU
   ALU_12bit: ALU_power4 port map(left_addend, right_addend, '0', sub_sumn, open, open, open, result_adder);

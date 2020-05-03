@@ -11,9 +11,9 @@ architecture Behavior of DataPath_tb is
   port( current_error: in signed(7 downto 0);
         clock, resetn: in std_logic;
         MUX_sel: in std_logic_vector(2 downto 0);
-        sub_sumn, LOADe_k, LOADe_k1, LOADP, LOADsum, LOADI, LOADdif, LOADD, LOADS1, LOADS2, ENABLEcnt: in std_logic;
+        sub_sumn, LOADe_k, LOADe_k1, LOADP, LOADsum, LOADI, LOADdif, LOADD, LOADS1, LOADS2, LOADu_k, ENABLEcnt: in std_logic;
         controlled_saturation: in std_logic_vector(1 downto 0);
-        cnt: buffer signed(9 downto 0);
+        cnt: buffer signed(9 downto 0); --fix it, it is UNsigned
         check_saturation: out std_logic_vector(1 downto 0);
         current_output: out signed(7 downto 0)
       );
@@ -23,7 +23,7 @@ constant n: integer:=20;
 signal e_in, u_out: signed(7 downto 0);
 signal clk_in, res_in: std_logic;
 signal sel_in: std_logic_vector(2 downto 0);
-signal LDe_k, LDe_k1, LDP, LDsum, LDI, LDdif, LDD, LDS1, LDS2, ENcnt: std_logic;
+signal LDe_k, LDe_k1, LDP, LDsum, LDI, LDdif, LDD, LDS1, LDS2, LDu_k, ENcnt: std_logic;
 signal sat_in, sat_out: std_logic_vector(1 downto 0);
 signal opcode: std_logic;
 signal counter: signed(9 downto 0);
@@ -31,7 +31,7 @@ signal counter: signed(9 downto 0);
 
 begin
   
-	DUT: DataPath port map(e_in, clk_in, res_in, sel_in, opcode, LDe_k, LDe_k1, LDP, LDsum, LDI, LDdif, LDD, LDS1, LDS2, ENcnt, sat_in, counter, sat_out, u_out);
+	DUT: DataPath port map(e_in, clk_in, res_in, sel_in, opcode, LDe_k, LDe_k1, LDP, LDsum, LDI, LDdif, LDD, LDS1, LDS2, LDu_k, ENcnt, sat_in, counter, sat_out, u_out);
 	  
   clock_gen: process
 		begin
@@ -85,6 +85,14 @@ begin
       LDS2 <= '0', '1' after 135 ns, '0' after 155 ns, --first number
                    '1' after 275 ns, '0' after 295 ns, --second number
 	                 '1' after 415 ns, '0' after 435 ns; --third number
+	                 
+	                 
+	    --control saturation
+	                 
+	    --u_k
+      LDu_k <= '0',  '1' after 155 ns, '0' after 175 ns, --first number
+	                   '1' after 295 ns, '0' after 315 ns, --second number
+	                   '1' after 435 ns, '0' after 455 ns; --third number
 	    
 	    --block count
 	    LDe_k1 <= '0', '1' after 155 ns, '0' after 175 ns, --first number

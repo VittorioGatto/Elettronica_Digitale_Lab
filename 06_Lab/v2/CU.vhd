@@ -79,7 +79,7 @@ architecture Behavior of CU is
   end process;
   
   
-  StateUpdateProcess: process(y_Q, counter, start_in, start_process)
+  StateUpdateProcess: process(y_Q, counter, start_in, start_process, done_testing)
 	begin
 		case y_Q is
 			when IDLE =>

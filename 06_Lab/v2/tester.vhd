@@ -100,6 +100,8 @@ process
 		
 		while (current_address < 1024) loop
 			
+			wait until rising_edge(clk);
+			
 			write (vec_line, error_bitvector);
 			writeline (data_file, vec_line);
 			
@@ -109,7 +111,6 @@ process
 		    end_test <= '0';
 		  end if;
 			
-			wait for 20 ns; --trick to simulate clock
 			current_address <= current_address + 1;
 		end loop;
 		

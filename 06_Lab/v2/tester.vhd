@@ -66,7 +66,7 @@ process
 		mode_file <= '0'; --read file
 		
 		file_open(data_file, "test_data_in_bit.txt", read_mode);
-		while (current_address < 1024) and (not endfile(data_file)) loop
+		while ((current_address /= 1023) AND (NOT endfile(data_file))) loop
 			
 			readline (data_file, vec_line);
 			read(vec_line, tmp_out);
@@ -98,14 +98,14 @@ process
 		
 		file_open(data_file, "test_data_out.txt", write_mode);
 		
-		while (current_address < 1024) loop
+		while (current_address /= 1023) loop
 			
 			wait until rising_edge(clk);
 			
 			write (vec_line, error_bitvector);
 			writeline (data_file, vec_line);
 			
-			if current_address = 1023 then
+			if current_address = 1022 then
 		    end_test <= '1';
 		  else
 		    end_test <= '0';
@@ -119,14 +119,14 @@ process
 		wait for 20 ns;
 		
 		current_address <= (others => '0');
+		mode_file <= '0';
 		
 	  wait until status = "11";
 	  
-	  mode_file <= '0';
 	  end_test <= '0';
 		
 
-    wait for 100 ns;
+    wait for 1000 ms;
     
 		start_in <= '0'; --restart
 		

@@ -26,8 +26,8 @@ begin
 process
 begin
 	s_in <= '0'; -- if s=0 then m=x that equals to 1 (m = 1)
-	wait for 4 ns;
+	wait for 10 ns;
 	s_in <= '1'; -- if s=1 then m=y that equals to 0 (m = 0)
-	wait for 4 ns;
+	wait for 10 ns;
 end process;
 end Behavior;	

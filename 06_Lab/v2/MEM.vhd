@@ -35,7 +35,18 @@ write_process: process(clk)
 		end if;
 end process;
 
-data_out <= reg(to_integer(unsigned(reg_addr)));
+read_process: process(clk)
+	begin
+		if(rising_edge(clk)) then
+			if enable = '1' then
+				if read_writen = '1' then
+					data_out <= reg(to_integer(unsigned(reg_addr)));
+				end if;
+			end if;
+		end if;
+end process;
+
+--data_out <= reg(to_integer(unsigned(reg_addr)));
 
 end Behavior;
 	

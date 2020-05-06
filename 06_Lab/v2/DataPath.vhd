@@ -9,7 +9,7 @@ entity DataPath is
         MUX_sel: in std_logic_vector(2 downto 0);
         sub_sumn, LOADe_k, LOADe_k1, LOADP, LOADsum, LOADI, LOADdif, LOADD, LOADS1, LOADS2, LOADu_k, ENABLEcnt: in std_logic;
         controlled_saturation: in std_logic_vector(1 downto 0);
-        cnt: buffer signed(9 downto 0); --fix it, it is UNsigned
+        cnt: buffer signed(9 downto 0);
         check_saturation: out std_logic_vector(1 downto 0);
         current_output: out signed(7 downto 0)
       );
@@ -67,7 +67,7 @@ component MUX6NtoN
 		 );
   end component;
   
-  signal resized_error, e_k, e_k1, e_k4, e_k025: signed(n-1 downto 0);
+  signal resized_error, e_k, e_k1, e_k4, e_k025: signed(n-1 downto 0); --generic signals
   signal left_addend, right_addend, result_adder: signed(n-1 downto 0); -- signals to be selected by the MUXes
   signal P_out, sum_out, sum_out2, I_out, dif_out, dif_out05, D_out, S1_out, S2_out: signed(n-1 downto 0); --output registers
   signal u_k: signed(7 downto 0);--register with data that has to be written in MEM_B
@@ -87,12 +87,12 @@ begin
   --BLOCK I
   sum_out2 <= sum_out(n-2 downto 0)&"0"; --2*sum_out
   REGsum: regn port map(result_adder, clock, resetn, LOADsum, sum_out);
-  REGI: regn port map(sum_out2, clock, resetn, LOADI, I_out);
+  REGI: regn port map(sum_out2, clock, resetn, LOADI, I_out); --memorize sum*2
   
   --BLOCK D
   dif_out05 <= dif_out(n-1)&dif_out(n-1 downto 1); --0.5*(e_k - e_k-1)
   REGdif: regn port map(result_adder, clock, resetn, LOADdif, dif_out);
-  REGD:regn port map(dif_out05, clock, resetn, LOADD, D_out);
+  REGD:regn port map(dif_out05, clock, resetn, LOADD, D_out); --memorize dif*0.5
   
   --BLOCK S1
   REGS1: regn port map(result_adder, clock, resetn, LOADS1, S1_out); --block P + block I
@@ -115,12 +115,12 @@ begin
     
   --MUXes
   cnt_resized <= resize(cnt, 20);
-  MUX_left: MUX6NtoN port map(e_k4, sum_out, e_k, P_out, S1_out, cnt_resized, MUX_sel, left_addend); --fix it
-  MUX_right: MUX6NtoN port map(e_k025, e_k, e_k1, I_out, D_out, "00000000000000000001", MUX_sel, right_addend);
+  MUX_left: MUX6NtoN port map(e_k4, sum_out, e_k, P_out, S1_out, cnt_resized, MUX_sel, left_addend);--left input of the adder
+  MUX_right: MUX6NtoN port map(e_k025, e_k, e_k1, I_out, D_out, "00000000000000000001", MUX_sel, right_addend);--right input of the adder
     
   MUX_saturation: MUX3NtoN port map("01111111", "10000000", S2_out(7 downto 0), controlled_saturation, u_k);--the output is chosen by the CU
   
   --ALU
-  ALU_12bit: ALU_power4 port map(left_addend, right_addend, '0', sub_sumn, open, open, open, result_adder);
+  ALU_20bit: ALU_power4 port map(left_addend, right_addend, '0', sub_sumn, open, open, open, result_adder);--useless outputs are open
   
 end Structure;

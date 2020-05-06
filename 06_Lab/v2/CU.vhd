@@ -92,7 +92,10 @@ architecture Behavior of CU is
 					Y_D <= WRITE_A;
 				end if;
 			
-			when DONE_A => --ready to start operations: load the first error in e_k
+			when DONE_A => --ready to start operations
+			  Y_D <= READ_A;
+			
+			when READ_A => -- load the first error in e_k
 			  Y_D <= BLOCK_P;
 			  
 			when BLOCK_P =>
@@ -177,6 +180,8 @@ architecture Behavior of CU is
 				  status <= "00";
 				  
 				when DONE_A =>
+				  
+				when READ_A =>
 				  Le_k <= '1';  --load e_k
 				  
 				when BLOCK_P =>

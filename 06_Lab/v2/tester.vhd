@@ -93,13 +93,14 @@ process
 		
 		mode_file <= '1';--write file
 		start_process <= '0';
+		wait for 20 ns;
 		
 		---
 		
 		file_open(data_file, "test_data_out.txt", write_mode);
 		
 		while (current_address /= 1023) loop
-			
+		  
 			wait until rising_edge(clk);
 			
 			write (vec_line, error_bitvector);

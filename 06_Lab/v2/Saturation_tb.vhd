@@ -24,19 +24,19 @@ DUT: Saturation port map(data_in, overflow);
 
 process
 	begin
-	data_in <= to_signed(129, n);
+	data_in <= to_signed(129, n);--10
 	wait for 10 ns;
-	data_in <= to_signed(300, n);
+	data_in <= to_signed(300, n);--10
 	wait for 10 ns;
-	data_in <= to_signed(50, n);
+	data_in <= to_signed(50, n);--00
 	wait for 10 ns;
-	data_in <= to_signed(-150, n);
+	data_in <= to_signed(-150, n);--11
 	wait for 10 ns;
-	data_in <= to_signed(-30, n);
+	data_in <= to_signed(-30, n);--01
 	wait for 10 ns;
-	data_in <= to_signed(-128, n);
+	data_in <= to_signed(-129, n);--11
 	wait for 10 ns;
-	data_in <= to_signed(127, n);
+	data_in <= to_signed(127, n);--00
 	wait for 10 ns;
 end process;
 

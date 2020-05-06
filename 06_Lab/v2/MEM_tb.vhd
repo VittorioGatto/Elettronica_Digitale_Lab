@@ -37,31 +37,31 @@ process
 	read_writen <= '0';
 	reg_addr <= "0000000001";
 	data_in <= to_signed(2, data_in'length);
-	wait for 10 ns;
+	wait for 15 ns;
 	reg_addr <= "0000000010";
 	data_in <= to_signed(5, data_in'length);
-	wait for 10 ns;
+	wait for 15 ns;
 	reg_addr <= "0000000011";
 	data_in <= to_signed(10, data_in'length);
 	--read phase
-	wait for 10 ns;
+	wait for 15 ns;
 	read_writen <= '1';
 	reg_addr <= "0000000011";
-	wait for 10 ns;
+	wait for 15 ns;
 	reg_addr <= "0000000001";
-	wait for 10 ns;
+	wait for 15 ns;
 	reg_addr <= "0000000010";
 	--check enable
-	wait for 10 ns;
+	wait for 15 ns;
 	enable <= '0';
 	read_writen <= '0';
 	reg_addr <= "0000000001";
 	data_in <= to_signed(9, data_in'length);
-	wait for 10 ns;
+	wait for 15 ns;
 	read_writen <= '0';
 	reg_addr <= "0000000011";
 	data_in <= to_signed(29, data_in'length);
-	wait for 10 ns;
+	wait for 15 ns;
 end process;
 
 end Test;

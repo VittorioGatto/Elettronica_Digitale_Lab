@@ -67,7 +67,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	unsigned int pushButtonVal;
-	unsigned int waitVal = SECOND >> 2; //start from 0.25 Hz (divide 4)
+	unsigned int waitVal = SECOND << 2; //start from 0.25 Hz = 4 seconds (multiply 4)
   /* USER CODE END 1 */
   
 
@@ -110,7 +110,7 @@ int main(void)
 	  pushButtonVal = (LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 1UL;
 
 	  if (pushButtonVal == 0)
-		  waitVal <<= 1; //Multiply 2
+		  waitVal >>= 1; //Divide 2
 
 	  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ 0x20);
 

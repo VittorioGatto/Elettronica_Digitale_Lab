@@ -33,7 +33,14 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SECOND 1000000
+/*Very approximate calc
+ * Every for cycle requires approx 10 instructions (See disassembly)
+ * Every data processing instruction has a latency of 3 cycles
+ * Clock Frequency: 84 MHz
+ * Number of ticks: 84MHz/(10 instructions * 3 cycles) = 2800000
+ * It's not absolutely reliable!
+ */
+#define SECOND 2800000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/

@@ -35,12 +35,14 @@
 /* USER CODE BEGIN PD */
 /*Very approximate calc
  * Every for cycle requires approx 10 instructions (See disassembly)
- * Every data processing instruction has a latency of 3 cycles
- * Clock Frequency: 84 MHz
- * Number of ticks: 84MHz/(10 instructions * 3 cycles) = 2800000
- * It's not absolutely reliable!
+ * Suppose every instruction has a latency of 1 cycle (approximation), datasheet of Cortex M4
+ * describes the latency of every instruction, some instruction of "for" take up more than 1 cycle,
+ * but the error produced is irrelevant
+ * Clock Frequency: 16 MHz
+ * Number of ticks: 16MHz/(10 instructions * 1 cycles) = 1600000
+ * It's very imprecise but works
  */
-#define SECOND 2800000
+#define SECOND 1600000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/

@@ -33,14 +33,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-/*Very approximate calc
- * Every for cycle requires approx 10 instructions (See disassembly)
- * Every data processing instruction has a latency of 3 cycles
- * Clock Frequency: 84 MHz
- * Number of ticks: 84MHz/(10 instructions * 3 cycles) = 2800000
- * It's not absolutely reliable!
- */
-#define SECOND 2800000
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -63,7 +55,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+#define SECOND 2800000
 /* USER CODE END 0 */
 
 /**
@@ -75,18 +67,19 @@ int main(void)
   /* USER CODE BEGIN 1 */
 	unsigned int pushButtonVal;
 	unsigned int waitVal = SECOND << 2; //start from 0.25 Hz = 4 seconds (multiply 4)
+	int flag = 0;
   /* USER CODE END 1 */
-  
+
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
+
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
 
   /* System interrupt init*/
 
@@ -104,28 +97,42 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-
   LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) | 0x20); //Set PA5 high
   /* USER CODE END 2 */
- 
- 
+
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  pushButtonVal = (LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 1UL;
-
-	  if (pushButtonVal == 0)
-		  waitVal >>= 1; //Divide 2
-
-	  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ 0x20);
-
-	  for(int i = 0; i < waitVal; i++);
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  flag = 1;
+	  pushButtonVal = (LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 1UL;
+
+	  if (pushButtonVal == 0)
+	  {
+		  waitVal >>= 1; //Divide 2
+		  flag = 0;
+	  }
+
+
+	  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ 0x20);
+
+	  for(int i = 0; i < waitVal; i++)
+	  {
+		  pushButtonVal = (LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 1UL;
+		  if (pushButtonVal == 0 && flag)
+		  {
+			   waitVal >>= 1; //Divide 2
+			   flag = 0;
+		  }
+
+	  }
+
+
   }
   /* USER CODE END 3 */
 }
@@ -136,11 +143,11 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
-  LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
+  LL_FLASH_SetLatency(LL_FLASH_LATENCY_2);
 
-  if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_0)
+   if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
   {
-  Error_Handler();  
+  Error_Handler();
   }
   LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE2);
   LL_RCC_HSI_SetCalibTrimming(16);
@@ -149,21 +156,29 @@ void SystemClock_Config(void)
    /* Wait till HSI is ready */
   while(LL_RCC_HSI_IsReady() != 1)
   {
-    
+
+  }
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_16, 336, LL_RCC_PLLP_DIV_4);
+  LL_RCC_PLL_Enable();
+
+   /* Wait till PLL is ready */
+  while(LL_RCC_PLL_IsReady() != 1)
+  {
+
   }
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
+  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
 
    /* Wait till System clock is ready */
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
-  
+
   }
-  LL_Init1msTick(16000000);
+  LL_Init1msTick(84000000);
   LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);
-  LL_SetSystemCoreClock(16000000);
+  LL_SetSystemCoreClock(84000000);
   LL_RCC_SetTIMPrescaler(LL_RCC_TIM_PRESCALER_TWICE);
 }
 

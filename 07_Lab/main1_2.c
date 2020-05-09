@@ -104,17 +104,16 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  pushButtonVal = (LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 1UL;
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+    	  pushButtonVal = (LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 1UL;
 
 	  if (pushButtonVal == 0){
 		  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) | (1UL << 5));
 	  } else {
 		  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) & ~(1UL << 5));
 	  }
-
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }

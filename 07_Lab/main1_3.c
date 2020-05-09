@@ -33,19 +33,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-<<<<<<< HEAD
-=======
-/*Very approximate calc
- * Every for cycle requires approx 10 instructions (See disassembly)
- * Suppose every instruction has a latency of 1 cycle (approximation), datasheet of Cortex M4
- * describes the latency of every instruction, some instruction of "for" take up more than 1 cycle,
- * but the error produced is irrelevant
- * Clock Frequency: 16 MHz
- * Number of ticks: 16MHz/(10 instructions * 1 cycles) = 1600000
- * It's very imprecise but works
- */
-#define SECOND 1600000
->>>>>>> origin/master
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -82,12 +69,12 @@ int main(void)
 	unsigned int waitVal = SECOND << 2; //start from 0.25 Hz = 4 seconds (multiply 4)
 	int flag = 0;
   /* USER CODE END 1 */
-
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-
+  
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
@@ -112,8 +99,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) | 0x20); //Set PA5 high
   /* USER CODE END 2 */
-
-
+ 
+ 
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -160,7 +147,7 @@ void SystemClock_Config(void)
 
    if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_2)
   {
-  Error_Handler();
+  Error_Handler();  
   }
   LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE2);
   LL_RCC_HSI_SetCalibTrimming(16);
@@ -169,7 +156,7 @@ void SystemClock_Config(void)
    /* Wait till HSI is ready */
   while(LL_RCC_HSI_IsReady() != 1)
   {
-
+    
   }
   LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_16, 336, LL_RCC_PLLP_DIV_4);
   LL_RCC_PLL_Enable();
@@ -177,7 +164,7 @@ void SystemClock_Config(void)
    /* Wait till PLL is ready */
   while(LL_RCC_PLL_IsReady() != 1)
   {
-
+    
   }
   LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
   LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
@@ -187,7 +174,7 @@ void SystemClock_Config(void)
    /* Wait till System clock is ready */
   while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
-
+  
   }
   LL_Init1msTick(84000000);
   LL_SYSTICK_SetClkSource(LL_SYSTICK_CLKSOURCE_HCLK);

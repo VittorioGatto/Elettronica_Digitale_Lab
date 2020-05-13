@@ -55,14 +55,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-// Every for cycle requires approx 10 instructions (See disassembly)
-// Every data processing instruction has a latency of 3 cycles	 * Suppose every instruction has a latency of 1 cycle (approximation), datasheet of Cortex M4
-// Clock Frequency: 84 MHz	 * describes the latency of every instruction, some instruction of "for" take up more than 1 cycle,
-// Number of ticks: 84MHz/(22 instructions * 3 cycles) = 6600000	 * but the error produced is irrelevant
-// It's not absolutely reliable!	 * Clock Frequency: 16 MHz
-// Number of ticks: 16MHz/(22 instructions * 1 cycles) = 3200000
-// It's very imprecise but works
-#define SECOND 3000000
+#define SECOND 2800000
 /* USER CODE END 0 */
 
 /**
@@ -73,7 +66,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	unsigned int pushButtonVal;
-	unsigned int waitVal = SECOND << 2; //start from 0.25 Hz = 4 seconds (multiply 4)
+	unsigned int waitVal = SECOND << 1; //half period = 2 s (0.25 Hz)
 	int flag = 0;
   /* USER CODE END 1 */
 
@@ -120,10 +113,10 @@ int main(void)
 
 	  for(int i = 0; (i < waitVal); i++)
 	  {
-		  pushButtonVal = (LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 1UL; //read value push button
+		  pushButtonVal = (LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 1U; //read value push button
 		  if (pushButtonVal == 0 && flag)
 		  {
-			   waitVal >>= 1; //Divide 2
+			   waitVal >>= 1; //Divide by 2
 			   flag = 0;
 		  }
 

@@ -182,13 +182,11 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-	//static long int x=0x12c; // What is this number? Masturbazione mentale
+	static long int x=0x12c;
 
-	//It works even without those things, asks professor
-	LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ (1UL << 10));
 
-	/*for(int i = 0; i<x*9000; i++) //prescaler?
-		x = ((x >> 2) | (((x & 1) ^ (x & 2)) << 5)); Useless*/
+	for(int i = 0; i<x*9000; i++)
+		x = ((x >> 2) | (((x & 1) ^ (x & 2)) << 5));
 
   /* USER CODE END SysTick_IRQn 0 */
   

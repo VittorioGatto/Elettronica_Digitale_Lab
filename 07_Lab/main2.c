@@ -55,7 +55,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+#define waitVal 700000
 /* USER CODE END 0 */
 
 /**
@@ -67,17 +67,17 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-  
+
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  
+
 
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
-  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+  NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
 
   /* System interrupt init*/
 
@@ -96,16 +96,22 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
-  SysTick_Config(SystemCoreClock); //configure interrupt, handler called every second
+  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) | 0x20); //Set PA5 high
+  SysTick_Config(SystemCoreClock);
+
   /* USER CODE END 2 */
- 
- 
+
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+	  for(int i = 0; (i < waitVal); i++);
+	  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ (1UL << 10));
   }
   /* USER CODE END 3 */
 }
@@ -120,7 +126,7 @@ void SystemClock_Config(void)
 
   if(LL_FLASH_GetLatency() != LL_FLASH_LATENCY_0)
   {
-  Error_Handler();  
+  Error_Handler();
   }
   LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE2);
   LL_RCC_HSI_SetCalibTrimming(16);
@@ -129,15 +135,23 @@ void SystemClock_Config(void)
    /* Wait till HSI is ready */
   while(LL_RCC_HSI_IsReady() != 1)
   {
-    
+
   }
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
+  LL_RCC_PLL_ConfigDomain_SYS(LL_RCC_PLLSOURCE_HSI, LL_RCC_PLLM_DIV_8, 64, LL_RCC_PLLP_DIV_2);
+  LL_RCC_PLL_Enable();
+
+   /* Wait till PLL is ready */
+  while(LL_RCC_PLL_IsReady() != 1)
+  {
+
+  }
+  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_4);
+  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
   LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
+  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_PLL);
 
    /* Wait till System clock is ready */
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI)
+  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_PLL)
   {
   
   }

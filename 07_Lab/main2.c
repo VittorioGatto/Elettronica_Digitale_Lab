@@ -55,7 +55,7 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define waitVal 700000
+#define waitVal 660000
 /* USER CODE END 0 */
 
 /**
@@ -96,7 +96,6 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
-  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) | 0x20); //Set PA5 high
   SysTick_Config(SystemCoreClock);
 
   /* USER CODE END 2 */
@@ -111,7 +110,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  for(int i = 0; (i < waitVal); i++);
-	  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ (1UL << 10));
+	  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ (1U << 10));
   }
   /* USER CODE END 3 */
 }

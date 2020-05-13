@@ -185,8 +185,8 @@ void SysTick_Handler(void)
 	static long int x=0x12c;
 
 
-	for(int i = 0; i<x*9000; i++)
-		x = ((x >> 2) | (((x & 1) ^ (x & 2)) << 5));
+	for(int i = 0; i<x*9000; i++);
+	x = ((x >> 2) | (((x & 1) ^ (x & 2)) << 5));
 
   /* USER CODE END SysTick_IRQn 0 */
   

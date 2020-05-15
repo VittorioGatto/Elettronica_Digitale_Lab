@@ -1,0 +1,8 @@
+Note generali per tutti i file:
+1) Includete in main.h (l'header di main) stdlib.h (usata per la funzione rand() e successivamente nel 4 abs())
+2) Aggiungete a stm32blabla quello schifo che sta alla fine del file del documento di laboratorio
+3) Per funzionare il tutto non dovete modificare dall'interfaccia grafica e poi generare codice, se già avete scritto qualcosa nei file o copiato questi, praticamente l'ide sovrascrive tutto (indovinate il coglione che l'ha fatto?)
+
+Metto solo i main qua
+
+Domani mattina carico schematici e la spiegazione di qualche algoritmo che ho usato, c'è molta matematica che fa schifo e ti fa andare in palla easy

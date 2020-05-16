@@ -19,7 +19,7 @@ Tout = [(PSC + 1)*(ARR + 1)]/Fclock
 ARR in tutti gli esercizi deve essere SEMPRE il valore massimo rappresentabile sul numero di bit, quindi (2^16 - 1) per TIM3 e (2^32 - 1) per TIM2
 
 A questo punto mettendo su wolfram alpha o matlab l'equazione sopra, sapendo quindi ARR (valore massimo), la Fclock (sempre 84 MHz), e Tout il periodo che si vuole generare
-ottenete i valori che ho scritto (guardate nel main TIM_init). Considerare anche il Dutycycle (50%).
+ottenete il prescaler che ho scritto (guardate nel main TIM_init). Considerare anche il Dutycycle (50%).
 
 Dall'1.2 in poi ci sono considerazioni più particolari, dall'1.2 all'1.3 dobbiamo rappresentare due frequenze:
  - 1 Hz per il led built in

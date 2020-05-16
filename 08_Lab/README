@@ -16,7 +16,7 @@ PSC e ARR determinano il periodo del nostro contatore, sono legati da questa rel
 
 Tout = [(PSC + 1)*(ARR + 1)]/Fclock
 
-ARR in tutti gli esercizi deve essere SEMPRE il valore massimo rappresentabile sul numero di bit, quindi (2^16 - 1) per TIM2 e (2^32 - 1) per TIM3
+ARR in tutti gli esercizi deve essere SEMPRE il valore massimo rappresentabile sul numero di bit, quindi (2^16 - 1) per TIM3 e (2^32 - 1) per TIM2
 
 A questo punto mettendo su wolfram alpha o matlab l'equazione sopra, sapendo quindi ARR (valore massimo), la Fclock (sempre 84 MHz), e Tout il periodo che si vuole generare
 ottenete i valori che ho scritto (guardate nel main TIM_init). Considerare anche il Dutycycle (50%).

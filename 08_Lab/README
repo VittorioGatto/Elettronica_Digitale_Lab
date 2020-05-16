@@ -35,7 +35,7 @@ Dall'1.2 in poi ci sono considerazioni più particolari, dall'1.2 all'1.3 dobbia
  Se mettete di nuovo su wolfram o matlab noterete che adesso con 32 bit verrebbe un prescaler con valore negativo(!).
  Questo è perchè solitamente un registro a 32 bit si usa per rappresentare periodi molto lunghi, in minuti o ore, non per rappresentare un secondo (pensate al forno a microonde)
  
- Dobbiamo trovare un compromesso, quindi troviamo sempre con wolfram che a un valore PSC di 1, corrispondono ben 100 secondi.
+ Dobbiamo trovare un compromesso, quindi troviamo sempre con wolfram che a un valore PSC di 1 (ARR ricordatevi massimo valore su 32 bit - 1), corrispondono ben 100 secondi.
  Quello che si decide di fare è allora un trucchetto simile all'esercizio precedente: impostare per i due canali soglie diverse, si fa una semplice proporzione:
  
  (2^32-1)ticks : 100 secondi = x ticks : 1 secondo

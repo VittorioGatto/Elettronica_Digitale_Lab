@@ -5,4 +5,50 @@ Note generali per tutti i file:
 
 Metto solo i main qua
 
-Domani mattina carico schematici e la spiegazione di qualche algoritmo che ho usato, c'è molta matematica che fa schifo e ti fa andare in palla easy
+Principio di funzionamento generale:
+Tutto il meccanismo si basa su 4 registri:
+ - PSC (prescaler): numero su cui dividere il clock, SEMPRE a 16 bit
+ - CNT (counter): registro in cui è messo l'attuale conta (numero di tick)
+ - ARR (auto reload value): valore dopo cui si resetta il registro CNT (count), 16 bit in TIM3 e 32 bit (!) in TIM2
+ - CCR (compare value): valore da comparare a CNT, praticamente quando CNT raggiunge questo valore si attiva un flag (CCxIF) che indica il raggiungimento di tale soglia
+
+PSC e ARR determinano il periodo del nostro contatore, sono legati da questa relazione (La trovate in L20 "sacre scritture di zamboni")
+
+Tout = [(PSC + 1)*(ARR + 1)]/Fclock
+
+ARR in tutti gli esercizi deve essere SEMPRE il valore massimo rappresentabile sul numero di bit, quindi (2^16 - 1) per TIM2 e (2^32 - 1) per TIM3
+
+A questo punto mettendo su wolfram alpha o matlab l'equazione sopra, sapendo quindi ARR (valore massimo), la Fclock (sempre 84 MHz), e Tout il periodo che si vuole generare
+ottenete i valori che ho scritto (guardate nel main TIM_init). Considerare anche il Dutycycle (50%).
+
+Dall'1.2 in poi ci sono considerazioni più particolari, dall'1.2 all'1.3 dobbiamo rappresentare due frequenze:
+ - 1 Hz per il led built in
+ - 2 Hz per il led sulla breadboard
+ 
+ A questo punto viene in gioco il CCR, che è forse la parte più intricata del tutto. Impostiamo due canali, entrambi per forza di cose
+ avranno lo stesso ARR e PSC (non si può impostare altrimenti) però hanno diverse soglie (CCR).
+ 
+ CCR per farla breve indica la soglia in cui si deve alzare il flag, il valore che si deve raggiungere.
+ Per il canale 2 quindi impostiamo una soglia di tick dimezzata di due (2Hz è metà del periodo).
+ 
+ Per l'1.3 e l'1.4 la particolarità è che dobbiamo usare un ARR rappresentato su 32 bit anzichè 16(!).
+ Se mettete di nuovo su wolfram o matlab noterete che adesso con 32 bit verrebbe un prescaler con valore negativo(!).
+ Questo è perchè solitamente un registro a 32 bit si usa per rappresentare periodi molto lunghi, in minuti o ore, non per rappresentare un secondo (pensate al forno a microonde)
+ 
+ Dobbiamo trovare un compromesso, quindi troviamo sempre con wolfram che a un valore PSC di 1, corrispondono ben 100 secondi.
+ Quello che si decide di fare è allora un trucchetto simile all'esercizio precedente: impostare per i due canali soglie diverse, si fa una semplice proporzione:
+ 
+ (2^32-1)ticks : 100 secondi = x ticks : 1 secondo
+ 
+ E si trova il numero x di ticks corrispondenti per 1 secondo, i calcoli li ho già fatti e come al solito sono nell'init di TIM.
+ Via via questa soglia CCR deve necessariamente essere aggiornata per la soglia successiva (1 sec, 2 sec, 3 sec ecc..).
+ 
+ L'1.4 è molto particolare, ho cercato di commentarlo al meglio possibile, essenzialmente abbiamo un range di tensioni dell'ADC (modulate col potenziometro messo tra massa e 3.3V),
+ e a questo range corrispondono i valori di frequenza 0.2Hz e 10Hz, quindi ho creato una funzione che fa lo scaling della tensione trovata in questo range di frequenze (è la formula della distanza tra due rette praticamente)
+ 
+ Dopo lo scaling questo valore in tensione deve esssere rappresentato in numero di ticks per impostare il CCR, ci rifacciamo alla proporzione trovata prima.
+ 
+ Attuali dubbi:
+  1) Nel testo c'è scritto che nel punto 1.1 il valore del CNT dovrebbe essere resettato, ma non vedo l'utilità visto che già si resetta da solo.
+  2) Anzichè usare ReadReg e WriteReg ho usato delle funzioni preesistenti (sempre libreria LL), il motivo essenzialmente è stato per avere meno dubbi possibili in fase di debug,
+     chiederei sul forum, ma in caso che ci dicano che dobbiamo usare per forza quelle no problem, funziona quindi sarà easy modificare.

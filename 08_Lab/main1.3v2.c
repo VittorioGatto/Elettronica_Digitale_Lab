@@ -119,17 +119,17 @@ int main(void)
 	  if(LL_TIM_ReadReg(TIM2, SR) & 0x04) //0.25s
 	  {		//internal
 		  LL_TIM_WriteReg(TIM2, SR,LL_TIM_ReadReg(TIM2, SR) & (~0x04)); //reset flag
-		  LL_TIM_WriteReg(TIM2, CCR2,LL_TIM_ReadReg(TIM2, CCR2) + 21000000); //new compare value
+		  LL_TIM_WriteReg(TIM2, CCR2,LL_TIM_ReadReg(TIM2, CNT) + 21000000); //new compare value
 
+		  if(LL_TIM_ReadReg(TIM2, SR) & 0x02) //0.5s
+		  	  {
+		  		  LL_TIM_WriteReg(TIM2, SR,LL_TIM_ReadReg(TIM2, SR) & (~0x02)); //reset flag
+		  		  LL_TIM_WriteReg(TIM2, CCR1,LL_TIM_ReadReg(TIM2, CNT) + 10500000); //new compare value
 
+		  	  }
 	  }
 
-	  if(LL_TIM_ReadReg(TIM2, SR) & 0x02) //0.5s
-	  {
-		  LL_TIM_WriteReg(TIM2, SR,LL_TIM_ReadReg(TIM2, SR) & (~0x02)); //reset flag
-		  LL_TIM_WriteReg(TIM2, CCR1,LL_TIM_ReadReg(TIM2, CCR1) + 10500000); //new compare value
 
-	  }
 
 
   }

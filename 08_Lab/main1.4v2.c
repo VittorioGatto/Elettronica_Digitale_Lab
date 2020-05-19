@@ -99,6 +99,8 @@ int main(void)
   MX_TIM2_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+  SysTick_Config(SystemCoreClock / 10);
+
   LL_TIM_WriteReg(TIM2, CR1, 1U); //enable counter
   LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U); //enable ADC
   /* USER CODE END 2 */

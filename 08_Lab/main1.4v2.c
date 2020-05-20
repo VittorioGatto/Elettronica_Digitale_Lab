@@ -122,7 +122,7 @@ int main(void)
 		  ADC_reading = LL_ADC_ReadReg(ADC1, DR);
 	  }
 
-	  if(LL_TIM_ReadReg(TIM2, SR) & 0x02) //0s
+	  if(LL_TIM_ReadReg(TIM2, SR) & 0x02) //OC
 	  	  {
 	  		  LL_TIM_WriteReg(TIM2, SR,LL_TIM_ReadReg(TIM2, SR) & (~0x02)); //reset flag
 	  		  LL_TIM_WriteReg(TIM2, CCR1,LL_TIM_ReadReg(TIM2, CNT) + 210000000 - (ADC_reading*890909)); //new compare value

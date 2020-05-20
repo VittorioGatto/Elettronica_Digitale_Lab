@@ -121,13 +121,13 @@ int main(void)
 	  if(LL_TIM_ReadReg(TIM3, SR) & 0x04) //0.25s
 	  {
 		  LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x04)); //reset flag
-		  LL_TIM_WriteReg(TIM3, CCR2,LL_TIM_ReadReg(TIM3, CCR2) + 10254); //new compare value
+		  LL_TIM_WriteReg(TIM3, CCR2,LL_TIM_ReadReg(TIM3, CNT) + 10254); //new compare value
 		  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ (1U << 10)); //toggle internal LED
 
 		  if(LL_TIM_ReadReg(TIM3, SR) & 0x02) //0.5s
 		 {
 		 	  				  LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x02)); //reset flag
-		 	  				  LL_TIM_WriteReg(TIM3, CCR1,LL_TIM_ReadReg(TIM3, CCR1) + 20508); //new compare value
+		 	  				  LL_TIM_WriteReg(TIM3, CNT,LL_TIM_ReadReg(TIM3, CCR1) + 20508); //new compare value
 		 	  				  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ (1U << 5)); //Toggle external LED
 
 

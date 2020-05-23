@@ -106,7 +106,7 @@ int main(void)
   //PA7 external
   LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) & ~(1U << 7));
   //PB0 external
-  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOB, ODR) & ~(1U << 0));
+  LL_GPIO_WriteReg(GPIOB, ODR, LL_GPIO_ReadReg(GPIOB, ODR) & ~(1U << 0));
  
  
 

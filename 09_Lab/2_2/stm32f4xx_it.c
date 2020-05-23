@@ -203,13 +203,11 @@ void SysTick_Handler(void)
 void TIM3_IRQHandler(void)
 {
 	if(LL_TIM_IsActiveFlag_CC1(TIM3)){
-	  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ (1U << 7));
 	  LL_TIM_ClearFlag_CC1(TIM3); //clear CC1F flag
 	  LL_TIM_OC_SetCompareCH1(TIM3, LL_TIM_GetCounter(TIM3) + 32768);
     }
 
     if(LL_TIM_IsActiveFlag_CC2(TIM3)){
-	  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ (1U << 6));
 	  LL_TIM_ClearFlag_CC2(TIM3); //clear CC2F flag
 	  LL_TIM_OC_SetCompareCH2(TIM3, LL_TIM_GetCounter(TIM3) + 16384);
     }

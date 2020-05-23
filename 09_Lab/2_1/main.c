@@ -100,11 +100,11 @@ int main(void)
   LL_TIM_EnableCounter(TIM3); //enable counter
   LL_TIM_EnableIT_UPDATE(TIM3); //enable interrupt update service
 
-  //PA6 external led 1Hz
+  //PA6 external channel 1
   LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) & ~(1U << 6));
-  //PA7 external led 2Hz
+  //PA7 external channel 2
   LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) & ~(1U << 7));
-  //PB0 external led 2Hz
+  //PB0 external channel 3
   LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOB, ODR) & ~(1U << 0));
  
  

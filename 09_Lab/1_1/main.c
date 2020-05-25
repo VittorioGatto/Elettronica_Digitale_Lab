@@ -103,8 +103,9 @@ int main(void)
 
   LL_TIM_WriteReg(TIM2, CR1, 1U); //enable counter
   LL_TIM_WriteReg(TIM2, DIER, LL_TIM_ReadReg(TIM2, DIER) | 2U); //enable interrupt
-  LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U); //enable ADC
 
+  LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U); //enable ADC
+  LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U << 30); //start ADC
 
   /* USER CODE END 2 */
  
@@ -114,7 +115,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	 LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U << 30); //start ADC
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

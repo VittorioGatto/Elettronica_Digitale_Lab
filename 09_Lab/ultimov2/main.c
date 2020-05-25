@@ -113,6 +113,9 @@ int main(void)
   LL_TIM_WriteReg(TIM4, DIER, LL_TIM_ReadReg(TIM3, DIER) | 2U); //enable interrupt
 
   LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U); //enable ADC
+  LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U << 30); //start ADC
+
+
 
   /* USER CODE END 2 */
  

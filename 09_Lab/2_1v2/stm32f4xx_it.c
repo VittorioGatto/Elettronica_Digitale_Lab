@@ -208,18 +208,18 @@ void TIM3_IRQHandler(void)
 	{
 		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x02)); //reset flag
 		LL_TIM_WriteReg(TIM3, CCR1,LL_TIM_ReadReg(TIM3, CNT) + 4102); //new compare value
+	}
 
-		if(LL_TIM_ReadReg(TIM3, SR) & 0x04) //CH2
-		{
-			LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x04)); //reset flag
-			LL_TIM_WriteReg(TIM3, CCR2,LL_TIM_ReadReg(TIM3, CNT) + 8203); //new compare value
+	if(LL_TIM_ReadReg(TIM3, SR) & 0x04) //CH2
+	{
+		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x04)); //reset flag
+		LL_TIM_WriteReg(TIM3, CCR2,LL_TIM_ReadReg(TIM3, CNT) + 8203); //new compare value
+	}
 
-			if(LL_TIM_ReadReg(TIM3, SR) & 0x08) //CH3
-			{
-				LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x08)); //reset flag
-				LL_TIM_WriteReg(TIM3, CCR3,LL_TIM_ReadReg(TIM3, CNT) + 16406); //new compare value
-			}
-		}
+	if(LL_TIM_ReadReg(TIM3, SR) & 0x08) //CH3
+	{
+		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x08)); //reset flag
+		LL_TIM_WriteReg(TIM3, CCR3,LL_TIM_ReadReg(TIM3, CNT) + 16406); //new compare value
 	}
 
 

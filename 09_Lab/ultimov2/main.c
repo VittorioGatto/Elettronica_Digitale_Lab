@@ -105,21 +105,20 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   LL_TIM_WriteReg(TIM3, CR1, 1U); //enable counter
-  LL_TIM_WriteReg(TIM3, DIER, LL_TIM_ReadReg(TIM3, DIER) | 2U); //enable interrupt
-  LL_TIM_WriteReg(TIM3, DIER, LL_TIM_ReadReg(TIM3, DIER) | 4U); //enable interrupt
-  LL_TIM_WriteReg(TIM3, DIER, LL_TIM_ReadReg(TIM3, DIER) | 8U); //enable interrupt
+  LL_TIM_WriteReg(TIM3, DIER, LL_TIM_ReadReg(TIM3, DIER) | (0x1UL << 1U)); //enable interrupt channel 1
+  LL_TIM_WriteReg(TIM3, DIER, LL_TIM_ReadReg(TIM3, DIER) | (0x1UL << 2U)); //enable interrupt channel 2
+  LL_TIM_WriteReg(TIM3, DIER, LL_TIM_ReadReg(TIM3, DIER) | (0x1UL << 3U)); //enable interrupt channel 3
 
   LL_TIM_WriteReg(TIM4, CR1, 1U); //enable counter
-  LL_TIM_WriteReg(TIM4, DIER, LL_TIM_ReadReg(TIM3, DIER) | 2U); //enable interrupt
+  LL_TIM_WriteReg(TIM4, DIER, LL_TIM_ReadReg(TIM4, DIER) | (0x1UL << 2U)); //enable interrupt channel 2
 
   LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U); //enable ADC
-  LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U << 30); //start ADC
-
+  LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | (1UL << 30U)); //start ADC
 
 
   /* USER CODE END 2 */
- 
- 
+
+
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -128,7 +127,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	if(LL_ADC_ReadReg(ADC1, SR) & 0x02) //EOC active
+	if(LL_ADC_ReadReg(ADC1, SR) & (0x1UL << 1U)) //EOC active
 	{
 		ADC_reading =  LL_ADC_ReadReg(ADC1, DR);
 
@@ -211,9 +210,9 @@ static void MX_ADC1_Init(void)
   
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
   /**ADC1 GPIO Configuration  
-  PA1   ------> ADC1_IN1 
+  PA0-WKUP   ------> ADC1_IN0
   */
-  GPIO_InitStruct.Pin = LL_GPIO_PIN_1;
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_0;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -239,8 +238,8 @@ static void MX_ADC1_Init(void)
   LL_ADC_CommonInit(__LL_ADC_COMMON_INSTANCE(ADC1), &ADC_CommonInitStruct);
   /** Configure Regular Channel 
   */
-  LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_1, LL_ADC_CHANNEL_1);
-  LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_1, LL_ADC_SAMPLINGTIME_3CYCLES);
+  LL_ADC_REG_SetSequencerRanks(ADC1, LL_ADC_REG_RANK_1, LL_ADC_CHANNEL_0);
+  LL_ADC_SetChannelSamplingTime(ADC1, LL_ADC_CHANNEL_0, LL_ADC_SAMPLINGTIME_3CYCLES);
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
@@ -266,13 +265,13 @@ static void MX_TIM3_Init(void)
 
   /* Peripheral clock enable */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
-  
+
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA);
   LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
-  /**TIM3 GPIO Configuration  
+  /**TIM3 GPIO Configuration
   PA6   ------> TIM3_CH1
   PA7   ------> TIM3_CH2
-  PB0   ------> TIM3_CH3 
+  PB0   ------> TIM3_CH3
   */
   GPIO_InitStruct.Pin = LL_GPIO_PIN_6|LL_GPIO_PIN_7;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
@@ -291,7 +290,7 @@ static void MX_TIM3_Init(void)
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* TIM3 interrupt Init */
-  NVIC_SetPriority(TIM3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_SetPriority(TIM3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),2, 0));
   NVIC_EnableIRQ(TIM3_IRQn);
 
   /* USER CODE BEGIN TIM3_Init 1 */
@@ -348,7 +347,7 @@ static void MX_TIM4_Init(void)
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM4);
 
   /* TIM4 interrupt Init */
-  NVIC_SetPriority(TIM4_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_SetPriority(TIM4_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),1, 0));
   NVIC_EnableIRQ(TIM4_IRQn);
 
   /* USER CODE BEGIN TIM4_Init 1 */

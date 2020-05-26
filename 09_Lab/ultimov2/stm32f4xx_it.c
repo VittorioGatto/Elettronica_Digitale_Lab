@@ -205,22 +205,23 @@ void SysTick_Handler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-	if(LL_TIM_ReadReg(TIM3, SR) & 0x02) //CH1
+	if(LL_TIM_ReadReg(TIM3, SR) & (0x1UL << 1U)) //CH1
 	{
-		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x02)); //reset flag
+		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & ~(0x1UL << 1U)); //reset flag
 		LL_TIM_WriteReg(TIM3, CCR1,LL_TIM_ReadReg(TIM3, CNT) + currentCCR1); //new compare value
 	}
 
-	if(LL_TIM_ReadReg(TIM3, SR) & 0x04) //CH2
+	if(LL_TIM_ReadReg(TIM3, SR) & (0x1UL << 2U)) //CH2
 	{
-		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x04)); //reset flag
+		LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ 1U << 5);
+		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & ~(0x1UL << 2U)); //reset flag
 		LL_TIM_WriteReg(TIM3, CCR2,LL_TIM_ReadReg(TIM3, CNT) + currentCCR2); //new compare value
 	}
 
-	if(LL_TIM_ReadReg(TIM3, SR) & 0x08) //CH3
+	if(LL_TIM_ReadReg(TIM3, SR) &(0x1UL << 3U)) //CH3
 	{
-		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & (~0x08)); //reset flag
-		LL_TIM_WriteReg(TIM3, CCR3,LL_TIM_ReadReg(TIM3, CNT) + currentCCR3); //new compare value
+		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & ~(0x1UL << 3U)); //reset flag
+		LL_TIM_WriteReg(TIM3, CCR3, LL_TIM_ReadReg(TIM3, CNT) + currentCCR3); //new compare value
 	}
 
   /* USER CODE END TIM3_IRQn 0 */
@@ -235,10 +236,11 @@ void TIM3_IRQHandler(void)
 void TIM4_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM4_IRQn 0 */
-	if(LL_TIM_ReadReg(TIM4, SR) & 0x04) //CH2
+	if(LL_TIM_ReadReg(TIM4, SR) & (0x1UL << 2U)) //CH2
 	{
-		LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | 1U << 30); //start ADC
-		LL_TIM_WriteReg(TIM4, SR,LL_TIM_ReadReg(TIM4, SR) & (~0x04)); //reset flag
+		//LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | (1UL << 30U)); //start ADC
+		LL_ADC_REG_StartConversionSWStart(ADC1);
+		LL_TIM_WriteReg(TIM4, SR,LL_TIM_ReadReg(TIM4, SR) & ~(0x1UL << 2U)); //reset flag
 		LL_TIM_WriteReg(TIM4, CCR2,LL_TIM_ReadReg(TIM4, CNT) + 41016); //new compare value
 	}
 

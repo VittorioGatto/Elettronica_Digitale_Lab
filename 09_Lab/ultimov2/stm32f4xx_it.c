@@ -213,7 +213,6 @@ void TIM3_IRQHandler(void)
 
 	if(LL_TIM_ReadReg(TIM3, SR) & (0x1UL << 2U)) //CH2
 	{
-		LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, ODR) ^ 1U << 5);
 		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & ~(0x1UL << 2U)); //reset flag
 		LL_TIM_WriteReg(TIM3, CCR2,LL_TIM_ReadReg(TIM3, CNT) + currentCCR2); //new compare value
 	}
@@ -238,8 +237,7 @@ void TIM4_IRQHandler(void)
   /* USER CODE BEGIN TIM4_IRQn 0 */
 	if(LL_TIM_ReadReg(TIM4, SR) & (0x1UL << 2U)) //CH2
 	{
-		//LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | (1UL << 30U)); //start ADC
-		LL_ADC_REG_StartConversionSWStart(ADC1);
+		LL_ADC_WriteReg(ADC1, CR2, LL_ADC_ReadReg(ADC1, CR2) | (1UL << 30U)); //start ADC
 		LL_TIM_WriteReg(TIM4, SR,LL_TIM_ReadReg(TIM4, SR) & ~(0x1UL << 2U)); //reset flag
 		LL_TIM_WriteReg(TIM4, CCR2,LL_TIM_ReadReg(TIM4, CNT) + 41016); //new compare value
 	}

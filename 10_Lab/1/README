@@ -1,0 +1,1 @@
+Pss: ho abilitato l'interrupt service anche se in questo caso non serve a niente per il TIM3, in caso di future modifiche del codice già c'è

@@ -1,0 +1,4 @@
+Appunti
+
+1) Per il primo esercizio sono abbastanza confuso sul metodo di verifica della frequenza/dutycycle, in qualunque caso credo che il codice sia giusto
+Ps: per il primo esercizio ho evitato la solita danza del CCR, ho semplicemente settato il prescaler del TIM4 in modo che producesse la frequenza di uscita giusta

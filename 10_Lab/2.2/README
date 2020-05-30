@@ -1,0 +1,6 @@
+Questo è il primo con le HAL, una nota importante, l'ho messo a una frequenza ridicola (10Hz), in questo modo è visibile a occhio umano che flickera
+
+Perchè non ho fatto come ha detto il dream team? Questi LED della scheda sono led del cazzo (già a duty cycle 25% sono belli che accessi, provare per credere col set compare), 
+non è una gloriosa lampada della philips con tutte le sfumature e tutto ciò che fa spettacolo (semicit),
+e poi perchè io ho perso un ora proprio perchè non lo vedevo dimmare bene a 100Hz ahahahaha.
+Poi quando dobbiamo postare il codice lo facciamo con i 100Hz o più.

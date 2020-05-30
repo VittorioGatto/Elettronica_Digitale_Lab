@@ -43,7 +43,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+unsigned int prevCapture;
+volatile unsigned int capture;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,25 +101,32 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
-  LL_TIM_EnableCounter(TIM3); //enable counter
-  LL_TIM_EnableCounter(TIM4); //enable counter
+  prevCapture = 0;
+  capture = 0;
 
-  LL_TIM_EnableIT_CC1(TIM3); //enable interrupt service
+  int time_elapsed; //difference between the two cnts
 
+  LL_TIM_WriteReg(TIM3, CCER, LL_TIM_ReadReg(TIM3, CCER) | 0x1UL); //enable capture mode CH1
+  LL_TIM_WriteReg(TIM3, DIER, LL_TIM_ReadReg(TIM3, DIER) | (0x1UL << 1U)); //enable interrupt service
+
+  LL_TIM_WriteReg(TIM3, CR1, LL_TIM_ReadReg(TIM3, CR1) | 0x1UL); //enable counter
+  LL_TIM_WriteReg(TIM4, CR1, LL_TIM_ReadReg(TIM4, CR1) | 0x1UL); //enable counter
   /* USER CODE END 2 */
- 
- 
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-	  //You can improve accuracy by incrementing the prescaler (essentially you do more steps (higher frequency))
-	    LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); //only for debug!!!
-	    LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM4_STOP);
-	    LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM4_STOP);
-	    LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
+	  //Code for debug only!!!!!!!
+
+	  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
+	  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM4_STOP);
+	  		
+	  if(capture != prevCapture){
+		time_elapsed = capture - prevCapture;
+		prevCapture = capture;
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -246,14 +254,10 @@ static void MX_TIM4_Init(void)
   /* Peripheral clock enable */
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM4);
 
-  /* TIM4 interrupt Init */
-  NVIC_SetPriority(TIM4_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
-  NVIC_EnableIRQ(TIM4_IRQn);
-
   /* USER CODE BEGIN TIM4_Init 1 */
 
   /* USER CODE END TIM4_Init 1 */
-  TIM_InitStruct.Prescaler = 129;
+  TIM_InitStruct.Prescaler = 65;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
   TIM_InitStruct.Autoreload = 65535;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;

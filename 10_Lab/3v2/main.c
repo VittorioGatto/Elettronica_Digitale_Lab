@@ -101,6 +101,7 @@ int main(void)
   // Prepare UART to receive a single character
   char character[2]; // Pointer to received data
   HAL_UART_Receive_IT(&huart2, character, 1);
+  int userInputInteger;
   /* USER CODE END 2 */
  
  
@@ -128,7 +129,6 @@ int main(void)
 	  if (correctlyReceivedData == 1)
 	  {
 		  correctlyReceivedData = 0;
-		  int userInputInteger;
 		  sscanf(character, "%d", &userInputInteger);//read the integer value
 
 		  executeChoice(userInputInteger);

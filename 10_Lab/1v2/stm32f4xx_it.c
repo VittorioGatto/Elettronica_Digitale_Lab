@@ -58,8 +58,8 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
-extern uint16_t risingEdge1, risingEdge2, fallingEdge;
-extern int periodReady = 0;
+extern uint16_t difRisingEdge, highValue;
+uint16_t  risingEdge = 0, capture  = 0, fallingEdge = 0, flag = 0;
 
 /* USER CODE END EV */
 
@@ -206,27 +206,44 @@ void TIM3_IRQHandler(void)
 {
 
   /* USER CODE BEGIN TIM3_IRQn 0 */
-	if((LL_TIM_ReadReg(TIM3, SR) & (0x1UL << 1U)) && (LL_GPIO_ReadReg(GPIOB, IDR) & (0x1UL <<6U)) && !periodReady)
+
+	if((LL_TIM_ReadReg(TIM3, SR) & (0x1UL << 1U)) && (LL_GPIO_ReadReg(GPIOB, IDR) & (0x1UL <<6U)))
 	{
 		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & ~(0x1UL << 1U)); //reset flag
-		risingEdge1 = LL_TIM_ReadReg(TIM3, CCR1); //rising
-		periodReady = 1;
-	}
-	else if((LL_TIM_ReadReg(TIM3, SR) & (0x1UL << 1U)) && (LL_GPIO_ReadReg(GPIOB, IDR) & (0x1UL <<6U)) && periodReady)
-	{
-		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & ~(0x1UL << 1U)); //reset flag
-		risingEdge2 = LL_TIM_ReadReg(TIM3, CCR1); //rising
-		periodReady = 0;
+		capture = risingEdge;
+		risingEdge = LL_TIM_ReadReg(TIM3, CCR1); //rising
 	}
 
-	if((LL_TIM_ReadReg(TIM3, SR) & (0x1UL << 1U)) && !(LL_GPIO_ReadReg(GPIOB, IDR) & (0x1UL <<6U))  && periodReady)
+
+	if((LL_TIM_ReadReg(TIM3, SR) & (0x1UL << 1U)) && !(LL_GPIO_ReadReg(GPIOB, IDR) & (0x1UL <<6U)))
 	{
 		LL_TIM_WriteReg(TIM3, SR,LL_TIM_ReadReg(TIM3, SR) & ~(0x1UL << 1U)); //reset flag
 		fallingEdge = LL_TIM_ReadReg(TIM3, CCR1); //falling
-
-
 	}
 
+
+	if(risingEdge!= capture)
+	{
+		if(risingEdge > capture)
+		{
+			difRisingEdge = risingEdge - capture;
+		}else
+		{
+			difRisingEdge = 65535 -capture + risingEdge;
+		}
+	}
+
+	flag = !flag;
+	if(fallingEdge!= capture && flag)
+		{
+			if(fallingEdge > capture)
+			{
+				highValue = fallingEdge - capture;
+			}else
+			{
+				highValue = 65535 - capture + fallingEdge;
+			}
+		}
 
 
 

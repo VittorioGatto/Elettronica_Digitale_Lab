@@ -43,8 +43,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile uint16_t risingEdge1, risingEdge2, fallingEdge;
-volatile int periodReady;
+volatile uint16_t difRisingEdge = 1, highValue = 1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -122,31 +121,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  //LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
-	  //LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM4_STOP);
-
-	  if(!periodReady)
-	 {
-		 if(risingEdge2 > risingEdge1)
-		{
-			frequency = 84000/(risingEdge2 - risingEdge1);
-		}else
-		{
-			frequency = 84000/(65535 - risingEdge1 + risingEdge2);
-		}
+	  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
+	  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM4_STOP);
 
 
-	 }else
-	 {
-		 if(fallingEdge > risingEdge1)
-		{
-			DC = (fallingEdge - risingEdge1)/840*frequency;
-		}
-		else
-		{
-			DC = (65535 - risingEdge1 + fallingEdge)/840*frequency;
-		}
-	 }
+	frequency = 84000/difRisingEdge;
+
+	DC = highValue/840*frequency;
+
 
 
 
